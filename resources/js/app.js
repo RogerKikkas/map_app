@@ -10,7 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import Vue from 'vue';
-import { LMap, LTileLayer, LMarker, LPolyline, LPopup } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker, LPolyline, LPopup, LCircleMarker, LTooltip } from 'vue2-leaflet';
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -27,10 +27,13 @@ import 'leaflet/dist/leaflet.css'
 
 Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);
+Vue.component('l-circle-marker', LCircleMarker);
 Vue.component('l-marker', LMarker);
 Vue.component('l-polyline', LPolyline);
 Vue.component('l-popup', LPopup);
+Vue.component('l-tooltip', LTooltip);
 Vue.component('leaf-map', require('./components/Map.vue').default);
+Vue.component('user-map', require('./components/UserMap.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

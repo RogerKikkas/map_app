@@ -67,6 +67,10 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .leaflet-tooltip-pane {
+                font-size: 14px;
+            }
         </style>
     </head>
     <body>

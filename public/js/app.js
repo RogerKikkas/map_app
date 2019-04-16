@@ -1769,6 +1769,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Map",
   data: function data() {
@@ -1776,7 +1777,83 @@ __webpack_require__.r(__webpack_exports__);
       zoom: 13,
       center: L.latLng(58.378025, 26.728493),
       url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      usersdata: [{
+        user_id: 1,
+        user_name: 'Tom',
+        markers: [{
+          id: 1,
+          lat: 58.356634,
+          lng: 26.723277
+        }, {
+          id: 2,
+          lat: 58.359776,
+          lng: 26.721412
+        }],
+        color: 'green',
+        show: true
+      }, {
+        user_id: 2,
+        user_name: 'Joe',
+        markers: [{
+          id: 3,
+          lat: 58.369652,
+          lng: 26.727763
+        }, {
+          id: 4,
+          lat: 58.368696,
+          lng: 26.734282
+        }],
+        color: 'red',
+        show: true
+      }]
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserMap.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserMap.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "UserMap",
+  props: {
+    userdata: {
+      type: Object / Array,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      radius: 3,
+      markers: this.userdata.markers,
+      color: this.userdata.color,
+      polyline: this.userdata.markers.map(function (x) {
+        return [x.lat, x.lng];
+      })
     };
   }
 });
@@ -51724,9 +51801,74 @@ var render = function() {
     [
       _c("l-tile-layer", {
         attrs: { url: _vm.url, attribution: _vm.attribution }
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.usersdata, function(user) {
+        return user.show
+          ? _c("user-map", { key: user.user_id, attrs: { userdata: user } })
+          : _vm._e()
       })
     ],
-    1
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserMap.vue?vue&type=template&id=1142bb14&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserMap.vue?vue&type=template&id=1142bb14&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm._l(_vm.markers, function(marker) {
+        return _c(
+          "l-circle-marker",
+          {
+            key: marker.id,
+            attrs: {
+              "lat-lng": [marker.lat, marker.lng],
+              color: _vm.color,
+              radius: _vm.radius
+            }
+          },
+          [
+            _c("l-popup", [
+              _c("ul", [
+                _c("li", [_vm._v("Lat: " + _vm._s(marker.lat))]),
+                _vm._v(" "),
+                _c("li", [_vm._v("Lng: " + _vm._s(marker.lng))])
+              ])
+            ])
+          ],
+          1
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "l-polyline",
+        { attrs: { "lat-lngs": _vm.polyline, color: _vm.color } },
+        [_c("l-tooltip", [_vm._v(_vm._s(_vm.userdata.user_name))])],
+        1
+      )
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -75033,7 +75175,7 @@ var findRealParent = function (firstVueParent) {
 /*!***********************************************************!*\
   !*** ./node_modules/vue2-leaflet/dist/vue2-leaflet.es.js ***!
   \***********************************************************/
-/*! exports provided: CircleMixin, ControlMixin, GridLayerMixin, ImageOverlayMixin, InteractiveLayerMixin, LayerMixin, LayerGroupMixin, OptionsMixin, PathMixin, PolygonMixin, PolylineMixin, PopperMixin, TileLayerMixin, TileLayerWMSMixin, LCircle, LCircleMarker, LControl, LControlAttribution, LControlLayers, LControlScale, LControlZoom, LFeatureGroup, LGeoJson, LGridLayer, LIcon, LIconDefault, LImageOverlay, LLayerGroup, LMap, LMarker, LPolygon, LPolyline, LPopup, LRectangle, LTileLayer, LTooltip, LWMSTileLayer, debounce, capitalizeFirstLetter, propsBinder, collectionCleaner, optionsMerger, findRealParent */
+/*! exports provided: debounce, capitalizeFirstLetter, propsBinder, collectionCleaner, optionsMerger, findRealParent, CircleMixin, ControlMixin, GridLayerMixin, ImageOverlayMixin, InteractiveLayerMixin, LayerMixin, LayerGroupMixin, OptionsMixin, PathMixin, PolygonMixin, PolylineMixin, PopperMixin, TileLayerMixin, TileLayerWMSMixin, LCircle, LCircleMarker, LControl, LControlAttribution, LControlLayers, LControlScale, LControlZoom, LFeatureGroup, LGeoJson, LGridLayer, LIcon, LIconDefault, LImageOverlay, LLayerGroup, LMap, LMarker, LPolygon, LPolyline, LPopup, LRectangle, LTileLayer, LTooltip, LWMSTileLayer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75310,10 +75452,13 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-map', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LMap"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-tile-layer', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LTileLayer"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-circle-marker', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LCircleMarker"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-marker', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LMarker"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-polyline', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LPolyline"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-popup', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LPopup"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-tooltip', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LTooltip"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('leaf-map', __webpack_require__(/*! ./components/Map.vue */ "./resources/js/components/Map.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('user-map', __webpack_require__(/*! ./components/UserMap.vue */ "./resources/js/components/UserMap.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -75454,6 +75599,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/UserMap.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/UserMap.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UserMap_vue_vue_type_template_id_1142bb14_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserMap.vue?vue&type=template&id=1142bb14&scoped=true& */ "./resources/js/components/UserMap.vue?vue&type=template&id=1142bb14&scoped=true&");
+/* harmony import */ var _UserMap_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserMap.vue?vue&type=script&lang=js& */ "./resources/js/components/UserMap.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _UserMap_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UserMap_vue_vue_type_template_id_1142bb14_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UserMap_vue_vue_type_template_id_1142bb14_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "1142bb14",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/UserMap.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/UserMap.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/UserMap.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserMap_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./UserMap.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserMap.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserMap_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/UserMap.vue?vue&type=template&id=1142bb14&scoped=true&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/UserMap.vue?vue&type=template&id=1142bb14&scoped=true& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserMap_vue_vue_type_template_id_1142bb14_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./UserMap.vue?vue&type=template&id=1142bb14&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserMap.vue?vue&type=template&id=1142bb14&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserMap_vue_vue_type_template_id_1142bb14_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserMap_vue_vue_type_template_id_1142bb14_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
