@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Tom',
             'email' => 'tom@gmail.com',
             'password' => bcrypt('secret'),
+            'color' => 'red',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -23,6 +24,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Joe',
             'email' => 'joe@gmail.com',
+            'color' => 'green',
             'password' => bcrypt('secret'),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),

@@ -1778,36 +1778,15 @@ __webpack_require__.r(__webpack_exports__);
       center: L.latLng(58.378025, 26.728493),
       url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      usersdata: [{
-        user_id: 1,
-        user_name: 'Tom',
-        markers: [{
-          id: 1,
-          lat: 58.356634,
-          lng: 26.723277
-        }, {
-          id: 2,
-          lat: 58.359776,
-          lng: 26.721412
-        }],
-        color: 'green',
-        show: true
-      }, {
-        user_id: 2,
-        user_name: 'Joe',
-        markers: [{
-          id: 3,
-          lat: 58.369652,
-          lng: 26.727763
-        }, {
-          id: 4,
-          lat: 58.368696,
-          lng: 26.734282
-        }],
-        color: 'red',
-        show: true
-      }]
+      users: []
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/usersWithCoordinates').then(function (response) {
+      return _this.users = response.data;
+    });
   }
 });
 
@@ -1849,9 +1828,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       radius: 3,
-      markers: this.userdata.markers,
+      coordinates: this.userdata.coordinates,
       color: this.userdata.color,
-      polyline: this.userdata.markers.map(function (x) {
+      polyline: this.userdata.coordinates.map(function (x) {
         return [x.lat, x.lng];
       })
     };
@@ -51780,6 +51759,19 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-axios/dist/vue-axios.min.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vue-axios/dist/vue-axios.min.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o};!function(){function o(e,t){if(!o.installed){if(o.installed=!0,!t)return void console.error("You have to install axios");e.axios=t,Object.defineProperties(e.prototype,{axios:{get:function(){return t}},$http:{get:function(){return t}}})}}"object"==( false?undefined:_typeof(exports))?module.exports=o: true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function(){return o}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):undefined}();
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true& ***!
@@ -51803,10 +51795,8 @@ var render = function() {
         attrs: { url: _vm.url, attribution: _vm.attribution }
       }),
       _vm._v(" "),
-      _vm._l(_vm.usersdata, function(user) {
-        return user.show
-          ? _c("user-map", { key: user.user_id, attrs: { userdata: user } })
-          : _vm._e()
+      _vm._l(_vm.users, function(user) {
+        return _c("user-map", { key: user.id, attrs: { userdata: user } })
       })
     ],
     2
@@ -51837,13 +51827,13 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.markers, function(marker) {
+      _vm._l(_vm.coordinates, function(coordinate) {
         return _c(
           "l-circle-marker",
           {
-            key: marker.id,
+            key: coordinate.id,
             attrs: {
-              "lat-lng": [marker.lat, marker.lng],
+              "lat-lng": [coordinate.lat, coordinate.lng],
               color: _vm.color,
               radius: _vm.radius
             }
@@ -51851,9 +51841,9 @@ var render = function() {
           [
             _c("l-popup", [
               _c("ul", [
-                _c("li", [_vm._v("Lat: " + _vm._s(marker.lat))]),
+                _c("li", [_vm._v("Lat: " + _vm._s(coordinate.lat))]),
                 _vm._v(" "),
-                _c("li", [_vm._v("Lng: " + _vm._s(marker.lng))])
+                _c("li", [_vm._v("Lng: " + _vm._s(coordinate.lng))])
               ])
             ])
           ],
@@ -51864,7 +51854,7 @@ var render = function() {
       _c(
         "l-polyline",
         { attrs: { "lat-lngs": _vm.polyline, color: _vm.color } },
-        [_c("l-tooltip", [_vm._v(_vm._s(_vm.userdata.user_name))])],
+        [_c("l-tooltip", [_vm._v(_vm._s(_vm.userdata.name))])],
         1
       )
     ],
@@ -75423,11 +75413,15 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-leaflet */ "./node_modules/vue2-leaflet/dist/vue2-leaflet.es.js");
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! leaflet/dist/leaflet.css */ "./node_modules/leaflet/dist/leaflet.css");
-/* harmony import */ var leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.min.js");
+/* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue2-leaflet */ "./node_modules/vue2-leaflet/dist/vue2-leaflet.es.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! leaflet/dist/leaflet.css */ "./node_modules/leaflet/dist/leaflet.css");
+/* harmony import */ var leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_5__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -75437,6 +75431,9 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_2___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a);
 
 
 
@@ -75450,13 +75447,13 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-map', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LMap"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-tile-layer', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LTileLayer"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-circle-marker', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LCircleMarker"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-marker', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LMarker"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-polyline', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LPolyline"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-popup', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LPopup"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-tooltip', vue2_leaflet__WEBPACK_IMPORTED_MODULE_1__["LTooltip"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-map', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LMap"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-tile-layer', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LTileLayer"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-circle-marker', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LCircleMarker"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-marker', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LMarker"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-polyline', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LPolyline"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-popup', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LPopup"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('l-tooltip', vue2_leaflet__WEBPACK_IMPORTED_MODULE_3__["LTooltip"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('leaf-map', __webpack_require__(/*! ./components/Map.vue */ "./resources/js/components/Map.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('user-map', __webpack_require__(/*! ./components/UserMap.vue */ "./resources/js/components/UserMap.vue")["default"]);
 /**
@@ -75465,8 +75462,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('user-map', __webpack_requi
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-delete leaflet__WEBPACK_IMPORTED_MODULE_2__["Icon"].Default.prototype._getIconUrl;
-leaflet__WEBPACK_IMPORTED_MODULE_2__["Icon"].Default.mergeOptions({
+delete leaflet__WEBPACK_IMPORTED_MODULE_4__["Icon"].Default.prototype._getIconUrl;
+leaflet__WEBPACK_IMPORTED_MODULE_4__["Icon"].Default.mergeOptions({
   iconRetinaUrl: 'images/vendor/leaflet/dist/marker-icon-2x.png',
   iconUrl: 'images/vendor/leaflet/dist/marker-icon.png',
   shadowUrl: 'images/vendor/leaflet/dist/marker-shadow.png'
@@ -75691,8 +75688,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/loc/app/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/loc/app/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp_php7\htdocs\map_app_local\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp_php7\htdocs\map_app_local\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

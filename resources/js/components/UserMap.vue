@@ -1,15 +1,15 @@
 <template>
     <div>
-        <l-circle-marker v-for="marker in markers" :lat-lng="[marker.lat, marker.lng]" :key="marker.id" :color="color" :radius="radius">
+        <l-circle-marker v-for="coordinate in coordinates" :lat-lng="[coordinate.lat, coordinate.lng]" :key="coordinate.id" :color="color" :radius="radius">
             <l-popup>
                 <ul>
-                    <li>Lat: {{ marker.lat }}</li>
-                    <li>Lng: {{ marker.lng }}</li>
+                    <li>Lat: {{ coordinate.lat }}</li>
+                    <li>Lng: {{ coordinate.lng }}</li>
                 </ul>
             </l-popup>
         </l-circle-marker>
         <l-polyline :lat-lngs="polyline" :color="color">
-            <l-tooltip>{{ userdata.user_name }}</l-tooltip>
+            <l-tooltip>{{ userdata.name }}</l-tooltip>
         </l-polyline>
     </div>
 </template>
@@ -23,12 +23,13 @@
                 required: true
             }
         },
+
         data() {
             return {
                 radius: 3,
-                markers: this.userdata.markers,
+                coordinates: this.userdata.coordinates,
                 color: this.userdata.color,
-                polyline: this.userdata.markers.map((x) => [x.lat, x.lng])
+                polyline: this.userdata.coordinates.map((x) => [x.lat, x.lng])
             }
         }
     }

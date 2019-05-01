@@ -10,6 +10,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import Vue from 'vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+Vue.use(VueAxios, axios);
 import { LMap, LTileLayer, LMarker, LPolyline, LPopup, LCircleMarker, LTooltip } from 'vue2-leaflet';
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
