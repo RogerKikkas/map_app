@@ -26,6 +26,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'joe@gmail.com',
             'color' => 'green',
             'password' => bcrypt('secret'),
+            'role' => 2,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);

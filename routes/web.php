@@ -11,8 +11,12 @@
 |
 */
 
+Route::get('/map', function () {
+    return view('map');
+});
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('/usersWithCoordinates', 'UsersController@getUsersWithCoordinates');
