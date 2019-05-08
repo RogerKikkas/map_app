@@ -52,4 +52,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Coordinate::class, 'user_id');
     }
+
+    public function userCoordinates() {
+        return $this;
+    }
 }

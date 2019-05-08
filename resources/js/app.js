@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -7,22 +6,37 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-
-import Vue from 'vue';
+import 'es6-promise/auto';
 import axios from 'axios';
+import auth from './auth';
+import router from './router';
+import Vue from 'vue';
+import VueAuth from '@websanova/vue-auth';
 import VueAxios from 'vue-axios';
-Vue.use(VueAxios, axios);
+import VueRouter from 'vue-router';
+import { Chrome } from 'vue-color'
 import { LMap, LTileLayer, LMarker, LPolyline, LPopup, LCircleMarker, LTooltip } from 'vue2-leaflet';
-import { Icon } from 'leaflet'
-import 'leaflet/dist/leaflet.css'
+import { Icon } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
+// Set Vue
+window.Vue = Vue;
+
+// Vue Router
+Vue.router = router;
+Vue.use(VueRouter);
+
+// Axios & Authentication
+Vue.use(VueAxios, axios);
+// If api url is different from app url
+axios.defaults.baseURL = '/api';
+console.log(auth);
+Vue.use(VueAuth, auth);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
 // const files = require.context('./', true, /\.vue$/i);
@@ -37,6 +51,11 @@ Vue.component('l-popup', LPopup);
 Vue.component('l-tooltip', LTooltip);
 Vue.component('leaf-map', require('./components/Map.vue').default);
 Vue.component('user-map', require('./components/UserMap.vue').default);
+Vue.component('app', require('./components/App.vue').default);
+Vue.component('navbar', require('./components/Navbar.vue').default);
+Vue.component('user-profile', require('./components/UserProfile.vue').default);
+Vue.component('admin', require('./components/Admin.vue').default);
+Vue.component('chrome-picker', Chrome);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -44,6 +63,7 @@ Vue.component('user-map', require('./components/UserMap.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// Leaflet marker default icons
 delete Icon.Default.prototype._getIconUrl;
 
 Icon.Default.mergeOptions({
@@ -53,5 +73,6 @@ Icon.Default.mergeOptions({
 });
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router
 });

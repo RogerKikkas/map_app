@@ -24,8 +24,13 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@types/leaflet": "^1.2.11",
+        "@websanova/vue-auth": "^2.21.14-beta",
+        "es6-promise": "^4.2.6",
         "leaflet": "^1.4.0",
         "vue-axios": "^2.1.4",
+        "vue-color": "^2.7.0",
+        "vue-router": "^3.0.6",
         "vue2-leaflet": "^2.0.3"
     }
 }

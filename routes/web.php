@@ -11,12 +11,8 @@
 |
 */
 
-Route::get('/map', function () {
-    return view('map');
-});
-
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/{any?}', function (){
+    return view('index');
+})->where('any', '^(?!api\/)[\/\w\.-]*');
 
 Route::get('/usersWithCoordinates', 'UsersController@getUsersWithCoordinates');

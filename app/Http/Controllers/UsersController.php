@@ -95,8 +95,11 @@ class UsersController extends Controller
         //
     }
 
-    public function getUsersWithCoordinates(){
-        $users = User::with('coordinates')->get();
-        return $users;
+    public function userCoordinates($id = 0){
+        $user = User::select('id', 'name', 'color')->with(['coordinates' => function($q){
+            $q->select('id', 'user_id', 'lat', 'lng');
+        }])->where("id", $id)->get();
+
+        return $user;
     }
 }
