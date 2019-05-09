@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Collection;
 
 class AuthController extends Controller
 {
@@ -38,9 +39,10 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if ($token = $this->guard()->attempt($credentials)) {
-            return response()->json(['status' => 'success'], 200)->header('Authorization', $token);
+        if ($token = auth()->attempt($credentials)) {
+            return response()->json(['status' => 'success', 'token' => $token], 200)->header('Authorization', $token);
         }
+
         return response()->json(['error' => 'login_error'], 401);
     }
 

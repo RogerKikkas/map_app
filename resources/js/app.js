@@ -29,8 +29,7 @@ Vue.use(VueRouter);
 // Axios & Authentication
 Vue.use(VueAxios, axios);
 // If api url is different from app url
-axios.defaults.baseURL = '/api';
-console.log(auth);
+Vue.axios.defaults.baseURL = '/api';
 Vue.use(VueAuth, auth);
 /**
  * The following block of code may be used to automatically register your

@@ -59,9 +59,6 @@
     export default {
         name: "Navbar",
 
-        mounted() {
-            console.log(this.$auth.user().name);
-        }
     }
 </script>
 

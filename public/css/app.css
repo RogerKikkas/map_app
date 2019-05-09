@@ -10710,6 +10710,11 @@ body {
   display: none;
 }
 
+.color-picker {
+  margin: auto;
+  width: 100% !important;
+}
+
 .form-control::-webkit-input-placeholder {
   opacity: 0.7;
 }
