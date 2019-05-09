@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'tom@gmail.com',
             'password' => bcrypt('secret'),
             'color' => 'red',
+            'api_token' => Str::random(10),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -26,6 +28,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'joe@gmail.com',
             'color' => 'green',
             'password' => bcrypt('secret'),
+            'api_token' => Str::random(10),
             'role' => 2,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),

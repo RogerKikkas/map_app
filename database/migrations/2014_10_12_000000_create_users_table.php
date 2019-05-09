@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('role')->default(1);
             $table->string('color')->default('purple');
+            $table->string('api_token', 10)->unique()->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

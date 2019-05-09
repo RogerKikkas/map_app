@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->get('userCoordinates/{id}', 'UsersController@userCoordinates');
+Route::post('addToMap', 'CoordinatesController@store');
 
 // Authenticated routes for logging in, registering etc..
 Route::prefix('auth')->group(function () {

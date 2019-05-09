@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
+use App\User;
+use App\Coordinate;
 
-class UsersController extends Controller
+class CoordinatesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
-        return response()->json(
-            [
-                'status' => 'success',
-                'users' => $users->toArray()
-            ], 200);
+        //
     }
 
     /**
@@ -41,7 +36,24 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!$request["token"]) {
+            return response()->json(['error' => 'missing token'], 401);
+        }
+
+        $user = User::where('api_token', $request["token"])->firstOrFail();
+
+        $attributes = $request->validate([
+            'lat' => 'required',
+            'lng' => 'required',
+        ]);
+
+        $attributes["user_id"] = $user["id"];
+        $attributes["created_at"] = date("Y-m-d H:i:s");
+        $attributes["updated_at"] = date("Y-m-d H:i:s");
+
+        Coordinate::create($attributes);
+
+        return $attributes;
     }
 
     /**
@@ -50,15 +62,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $user = User::findOrFail($id);
-
-        return response()->json(
-            [
-                'status' => 'success',
-                'user' => $user->toArray()
-            ], 200);
+        //
     }
 
     /**
@@ -95,11 +101,5 @@ class UsersController extends Controller
         //
     }
 
-    public function userCoordinates($id = 0){
-        $user = User::select('id', 'name', 'color')->with(['coordinates' => function($q){
-            $q->select('id', 'user_id', 'lat', 'lng');
-        }])->where("id", $id)->get();
 
-        return $user;
-    }
 }
