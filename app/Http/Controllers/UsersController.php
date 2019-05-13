@@ -102,4 +102,10 @@ class UsersController extends Controller
 
         return $user;
     }
+
+    public function usersForMap() {
+        $users = User::select('id', 'name', 'color')->get();
+
+        return $users;
+    }
 }

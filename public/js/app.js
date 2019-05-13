@@ -2950,7 +2950,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "MapContainer"
+  name: "MapContainer",
+  data: function data() {
+    return {
+      users: {}
+    };
+  },
+  mounted: function mounted() {
+    this.getAllUsers();
+    this.getUserData(this.$auth.user().id);
+  },
+  methods: {
+    getAllUsers: function getAllUsers() {
+      var app = this;
+      Vue.axios.get('/usersForMap').then(function (response) {
+        return response.data.map(function (value) {
+          value.showCoordinates = false;
+          value.coordinates = [];
+          Vue.set(app.users, value.id, value);
+        });
+      });
+    },
+    getUserData: function getUserData(id) {
+      var app = this;
+      Vue.axios.get("/userCoordinates/".concat(id)).then(function (response) {
+        response.data[0].showCoordinates = true;
+        Vue.set(app.users, id, response.data[0]);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3110,26 +3138,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Map",
+  props: {
+    userdata: {
+      type: Object / Array,
+      required: true
+    }
+  },
   data: function data() {
     return {
       zoom: 13,
       center: L.latLng(58.378025, 26.728493),
       url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      users: {}
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     };
-  },
-  mounted: function mounted() {
-    this.getUserData(this.$auth.user().id);
-  },
-  methods: {
-    getUserData: function getUserData($id) {
-      var _this = this;
-
-      Vue.axios.get("/userCoordinates/".concat($id)).then(function (response) {
-        return Vue.set(_this.users, $id, response.data[0]);
-      });
-    }
   }
 });
 
@@ -3202,7 +3223,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Navbar"
+  name: "Navbar",
+  props: {
+    users: {
+      type: Object / Array,
+      required: true
+    }
+  },
+  methods: {
+    toggleUser: function toggleUser(id) {
+      var user = this.users[id];
+
+      if (user.showCoordinates) {
+        user.coordinates = [];
+        user.showCoordinates = false;
+      } else {
+        this.getUserCoordinates(id);
+      }
+
+      console.log(this.users[id]);
+    },
+    getUserCoordinates: function getUserCoordinates(id) {
+      console.log('id: ' + id);
+      var app = this;
+      Vue.axios.get("/userCoordinates/".concat(id)).then(function (response) {
+        response.data[0].showCoordinates = true;
+        Vue.set(app.users, id, response.data[0]);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -54831,7 +54880,11 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "container-fluid h-100" },
-    [_c("navbar"), _vm._v(" "), _c("leaf-map")],
+    [
+      _c("navbar", { attrs: { users: _vm.users } }),
+      _vm._v(" "),
+      _c("leaf-map", { attrs: { userdata: _vm.users } })
+    ],
     1
   )
 }
@@ -55078,8 +55131,10 @@ var render = function() {
         attrs: { url: _vm.url, attribution: _vm.attribution }
       }),
       _vm._v(" "),
-      _vm._l(_vm.users, function(user) {
-        return _c("user-map", { key: user.id, attrs: { userdata: user } })
+      _vm._l(_vm.userdata, function(user) {
+        return user.coordinates.length
+          ? _c("user-map", { key: user.id, attrs: { userdata: user } })
+          : _vm._e()
       })
     ],
     2
@@ -55129,7 +55184,58 @@ var render = function() {
           attrs: { id: "basicExampleNav" }
         },
         [
-          _vm._m(1),
+          _c("ul", { staticClass: "navbar-nav mr-auto" }, [
+            _c("li", { staticClass: "nav-item dropdown" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link dropdown-toggle",
+                  attrs: {
+                    id: "navbarDropdownMenuLink",
+                    "data-toggle": "dropdown",
+                    "aria-haspopup": "true",
+                    "aria-expanded": "false"
+                  }
+                },
+                [_vm._v("Users")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "dropdown-menu dropdown-primary",
+                  attrs: { "aria-labelledby": "navbarDropdownMenuLink" }
+                },
+                _vm._l(_vm.users, function(user) {
+                  return _c(
+                    "div",
+                    {
+                      key: user.id,
+                      staticClass: "dropdown-item",
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          return _vm.toggleUser(user.id)
+                        }
+                      }
+                    },
+                    [
+                      _c("input", {
+                        attrs: { type: "checkbox" },
+                        domProps: { checked: user.showCoordinates }
+                      }),
+                      _vm._v(_vm._s(user.name) + "\n                    ")
+                    ]
+                  )
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2)
+          ]),
           _vm._v(" "),
           _c("ul", { staticClass: "navbar-nav" }, [
             _c("li", { staticClass: "nav-item dropdown" }, [
@@ -55230,53 +55336,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-      _c("li", { staticClass: "nav-item dropdown" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link dropdown-toggle",
-            attrs: {
-              id: "navbarDropdownMenuLink",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [_vm._v("Dropdown")]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu dropdown-primary",
-            attrs: { "aria-labelledby": "navbarDropdownMenuLink" }
-          },
-          [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-          _vm._v("Date")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("span", { staticClass: "oi oi-calendar" })
+    return _c("li", { staticClass: "nav-item" }, [
+      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+        _vm._v("Date")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c("span", { staticClass: "oi oi-calendar" })
     ])
   }
 ]

@@ -1,13 +1,43 @@
 <template>
     <div class="container-fluid h-100">
-        <navbar></navbar>
-        <leaf-map></leaf-map>
+        <navbar :users="users"></navbar>
+        <leaf-map :userdata="users"></leaf-map>
     </div>
 </template>
 
 <script>
     export default {
-        name: "MapContainer"
+        name: "MapContainer",
+
+        data() {
+            return {
+               users: {},
+            }
+        },
+
+        mounted() {
+            this.getAllUsers();
+            this.getUserData(this.$auth.user().id);
+        },
+
+        methods: {
+            getAllUsers(){
+                let app = this;
+                Vue.axios.get('/usersForMap').then(response => response.data.map(function(value) {
+                    value.showCoordinates = false;
+                    value.coordinates = [];
+                    Vue.set(app.users, value.id, value);
+                }));
+            },
+
+            getUserData(id) {
+                let app = this;
+                Vue.axios.get(`/userCoordinates/${id}`).then(function(response) {
+                    response.data[0].showCoordinates = true;
+                    Vue.set(app.users, id, response.data[0]);
+                });
+            }
+        }
     }
 </script>
 

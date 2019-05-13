@@ -17,11 +17,11 @@
                 <!-- Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                       aria-haspopup="true" aria-expanded="false">Users</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <div class="dropdown-item" v-for="user in users" @click.stop="toggleUser(user.id)" :key="user.id">
+                            <input type="checkbox" :checked="user.showCoordinates">{{ user.name }}
+                        </div>
                     </div>
                 </li>
 
@@ -58,6 +58,37 @@
 <script>
     export default {
         name: "Navbar",
+
+        props: {
+            users: {
+                type: Object/Array,
+                    required: true
+            }
+        },
+
+        methods: {
+            toggleUser(id) {
+                let user = this.users[id];
+
+                if (user.showCoordinates) {
+                    user.coordinates = [];
+                    user.showCoordinates = false;
+                } else {
+                    this.getUserCoordinates(id);
+                }
+
+                console.log(this.users[id]);
+            },
+
+            getUserCoordinates(id) {
+                console.log('id: ' + id);
+                let app = this;
+                Vue.axios.get(`/userCoordinates/${id}`).then(function(response) {
+                    response.data[0].showCoordinates = true;
+                    Vue.set(app.users, id, response.data[0]);
+                });
+            }
+        }
 
     }
 </script>
