@@ -14,8 +14,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Tom',
-            'email' => 'tom@gmail.com',
+            'name' => 'User',
+            'email' => 'user@example.com',
             'password' => bcrypt('secret'),
             'color' => 'red',
             'api_token' => Str::random(10),
@@ -24,8 +24,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Joe',
-            'email' => 'joe@gmail.com',
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
             'color' => 'green',
             'password' => bcrypt('secret'),
             'api_token' => Str::random(10),
