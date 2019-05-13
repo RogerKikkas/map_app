@@ -14,6 +14,7 @@ import Vue from 'vue';
 import VueAuth from '@websanova/vue-auth';
 import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
+import VueClipboard from 'vue-clipboard2';
 import { Chrome } from 'vue-color'
 import { LMap, LTileLayer, LMarker, LPolyline, LPopup, LCircleMarker, LTooltip } from 'vue2-leaflet';
 import { Icon } from 'leaflet';
@@ -31,6 +32,8 @@ Vue.use(VueAxios, axios);
 // If api url is different from app url
 Vue.axios.defaults.baseURL = '/api';
 Vue.use(VueAuth, auth);
+
+Vue.use(VueClipboard);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
