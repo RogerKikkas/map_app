@@ -3,21 +3,41 @@ import VueRouter from 'vue-router'
 // Pages
 import Register from './components/Register'
 import Login from './components/Login'
-import UserProfileContainer from './containers/UserProfileContainer'
 import UserProfile from './components/UserProfile'
-import AdminContainer from './containers/AdminContainer'
+import Admin from './components/Admin'
 import Map from './components/Map'
-import Test from './components/Test'
-import MapContainer from './Containers/MapContainer'
 import AppContainer from './Containers/AppContainer'
 
 // Routes
 const routes = [
     {
         path: '/',
-        redirect: '/map',
-        name: 'homeToMap',
-        component: MapContainer,
+        component: AppContainer,
+        children: [
+            {
+                path: 'map',
+                name: 'appMap',
+                component: Map
+            },
+            {
+                path: 'user',
+                name: 'appUser',
+                component: UserProfile
+            },
+            {
+                path: 'admin',
+                name: 'appAdmin',
+                component: Admin,
+                meta: {
+                    auth: {roles: 2, redirect: {name: 'login'}, forbiddenRedirect: '/403'}
+                }
+            },
+            {
+                path: '',
+                name: 'appDefault',
+                redirect: 'map'
+            }
+        ],
         meta: {
             auth: true
         }
@@ -45,32 +65,6 @@ const routes = [
         component: Login,
         meta: {
             auth: false
-        }
-    },
-    {
-        path: '/map',
-        name: 'map',
-        component: MapContainer,
-        meta: {
-            auth: true
-        }
-    },
-    // USER ROUTES
-    {
-        path: '/user',
-        name: 'user',
-        component: UserProfileContainer,
-        meta: {
-            auth: true
-        }
-    },
-    // ADMIN ROUTES
-    {
-        path: '/admin',
-        name: 'admin',
-        component: AdminContainer,
-        meta: {
-            auth: {roles: 2, redirect: {name: 'login'}, forbiddenRedirect: '/403'}
         }
     },
     {

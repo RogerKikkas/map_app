@@ -1,7 +1,7 @@
 <template>
     <l-map :zoom="zoom" :center="center" id="map">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <user-map v-for="user in userdata" v-if="user.coordinates.length" :key="user.id" :userdata="user"></user-map>
+        <user-map v-for="user in users" v-if="user.coordinates.length" :key="user.id" :userdata="user"></user-map>
     </l-map>
 </template>
 
@@ -9,7 +9,7 @@
     export default {
         name: "Map",
         props: {
-            userdata: {
+            users: {
                 type: Object/Array,
                 required: true
             }
