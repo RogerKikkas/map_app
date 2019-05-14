@@ -4,8 +4,12 @@ import VueRouter from 'vue-router'
 import Register from './components/Register'
 import Login from './components/Login'
 import UserProfileContainer from './containers/UserProfileContainer'
+import UserProfile from './components/UserProfile'
 import AdminContainer from './containers/AdminContainer'
+import Map from './components/Map'
+import Test from './components/Test'
 import MapContainer from './Containers/MapContainer'
+import AppContainer from './Containers/AppContainer'
 
 // Routes
 const routes = [

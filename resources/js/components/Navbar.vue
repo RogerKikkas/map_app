@@ -76,12 +76,9 @@
                 } else {
                     this.getUserCoordinates(id);
                 }
-
-                console.log(this.users[id]);
             },
 
             getUserCoordinates(id) {
-                console.log('id: ' + id);
                 let app = this;
                 Vue.axios.get(`/userCoordinates/${id}`).then(function(response) {
                     response.data[0].showCoordinates = true;
