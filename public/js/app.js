@@ -2958,8 +2958,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       users: {},
       startDate: '',
-      endDate: '',
-      test: {}
+      endDate: ''
     };
   },
   mounted: function mounted() {
@@ -2988,8 +2987,10 @@ __webpack_require__.r(__webpack_exports__);
     getStartDates: function getStartDates(id) {
       var app = this;
       Vue.axios.get("/userStartDates/".concat(id)).then(function (response) {
-        Vue.set(app.startDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at).subtract(1, 'days'));
-        Vue.set(app.endDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at));
+        var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at).subtract(1, 'days');
+        var endDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at);
+        Vue.set(app.startDate = startDate);
+        Vue.set(app.endDate = endDate);
       });
     }
   }
@@ -3185,10 +3186,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_daterange_picker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_daterange_picker__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue2_daterange_picker_dist_lib_vue_daterange_picker_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-daterange-picker/dist/lib/vue-daterange-picker.min.css */ "./node_modules/vue2-daterange-picker/dist/lib/vue-daterange-picker.min.css");
 /* harmony import */ var vue2_daterange_picker_dist_lib_vue_daterange_picker_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue2_daterange_picker_dist_lib_vue_daterange_picker_min_css__WEBPACK_IMPORTED_MODULE_2__);
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
 //
 //
 //
@@ -3277,8 +3275,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      startDate: moment__WEBPACK_IMPORTED_MODULE_0__().subtract(1, 'days'),
-      endDate: moment__WEBPACK_IMPORTED_MODULE_0__(),
+      dateRange: {
+        startDate: moment__WEBPACK_IMPORTED_MODULE_0__(),
+        endDate: moment__WEBPACK_IMPORTED_MODULE_0__()
+      },
       opens: "right",
       locale: {
         direction: 'ltr',
@@ -3311,24 +3311,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: {
-    startDate2: function startDate2() {
-      return _objectSpread({}, this.userStartDate);
-    }
-  },
-  mounted: function mounted() {
-    console.log(this);
-    console.log('----');
-    var app = this;
-    Vue.nextTick(function () {
-      console.log(app.userEndDate);
-    }); //Vue.set(this.endDate, this.userEndDate);
-  },
-  created: function created() {
-    console.log(this.userEndDate); //this.startDate = this.userStartDate;
-
-    Vue.set(this.endDate, this.userEndDate);
-  },
   methods: {
     toggleUser: function toggleUser(id) {
       var user = this.users[id];
@@ -3348,7 +3330,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     dateUpdate: function dateUpdate() {
-      console.log('update');
+      Vue.set(this.userStartDate, this.dateRange.startDate);
+      Vue.set(this.userEndDate, this.dateRange.endDate);
     }
   }
 });
@@ -72925,12 +72908,23 @@ var render = function() {
               [
                 _c("date-range-picker", {
                   attrs: {
-                    startDate: _vm.startDate,
-                    endDate: _vm.endDate,
+                    "start-date": _vm.userStartDate,
+                    "end-date": _vm.userEndDate,
                     "locale-data": _vm.locale,
                     opens: _vm.opens
                   },
-                  on: { update: _vm.dateUpdate }
+                  on: {
+                    update: function($event) {
+                      return _vm.dateUpdate()
+                    }
+                  },
+                  model: {
+                    value: _vm.dateRange,
+                    callback: function($$v) {
+                      _vm.dateRange = $$v
+                    },
+                    expression: "dateRange"
+                  }
                 })
               ],
               1
@@ -100031,8 +100025,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.min.js");
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_axios__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-clipboard2 */ "./node_modules/vue-clipboard2/vue-clipboard.js");
-/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_clipboard2__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vue-clipboard2 */ "./node_modules/vue-clipboard2/vue-clipboard.js");
+/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vue_clipboard2__WEBPACK_IMPORTED_MODULE_13__);
 /* harmony import */ var vue_color__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-color */ "./node_modules/vue-color/dist/vue-color.min.js");
 /* harmony import */ var vue_color__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_color__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var vue2_leaflet__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue2-leaflet */ "./node_modules/vue2-leaflet/dist/vue2-leaflet.es.js");
@@ -100070,7 +100064,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_axios__WEBPACK_IMPORTED_MODUL
 
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.axios.defaults.baseURL = '/api';
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_5___default.a, _auth__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_clipboard2__WEBPACK_IMPORTED_MODULE_8___default.a);
+vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_clipboard2__WEBPACK_IMPORTED_MODULE_13___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -100963,8 +100957,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\map_app\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\map_app\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp_php7\htdocs\map_app_local\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp_php7\htdocs\map_app_local\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

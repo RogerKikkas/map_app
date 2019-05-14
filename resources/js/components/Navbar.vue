@@ -31,9 +31,10 @@
 
                 <li class="nav-item">
                     <date-range-picker
-                            :startDate="startDate"
-                            :endDate="endDate"
-                            @update="dateUpdate"
+                            v-model="dateRange"
+                            :start-date="userStartDate"
+                            :end-date="userEndDate"
+                            @update="dateUpdate()"
                             :locale-data="locale"
                             :opens="opens"
                     >
@@ -89,8 +90,10 @@
 
         data() {
             return {
-                startDate: moment().subtract(1, 'days'),
-                endDate: moment(),
+                dateRange: {
+                    startDate: moment(),
+                    endDate: moment()
+                },
                 opens: "right",
                 locale: {
                     direction: 'ltr',
@@ -117,28 +120,6 @@
             }
         },
 
-        computed: {
-            startDate2() {
-                return {...this.userStartDate}
-            },
-        },
-
-        mounted() {
-            console.log(this);
-            console.log('----');
-            let app = this;
-            Vue.nextTick(function () {
-                console.log(app.userEndDate);
-            });
-            //Vue.set(this.endDate, this.userEndDate);
-        },
-
-        created() {
-            console.log(this.userEndDate);
-            //this.startDate = this.userStartDate;
-            Vue.set(this.endDate, this.userEndDate);
-        },
-
         methods: {
             toggleUser(id) {
                 let user = this.users[id];
@@ -160,7 +141,8 @@
             },
 
             dateUpdate() {
-                console.log('update');
+                Vue.set(this.userStartDate, this.dateRange.startDate);
+                Vue.set(this.userEndDate, this.dateRange.endDate);
             }
         }
 

@@ -16,7 +16,6 @@
                 users: {},
                 startDate: '',
                 endDate: '',
-                test: {},
             }
         },
 
@@ -47,8 +46,10 @@
             getStartDates(id) {
                 let app = this;
                 Vue.axios.get(`/userStartDates/${id}`).then(function(response) {
-                    Vue.set(app.startDate = moment(response.data.created_at).subtract(1, 'days'));
-                    Vue.set(app.endDate = moment(response.data.created_at));
+                    let startDate = moment(response.data.created_at).subtract(1, 'days');
+                    let endDate = moment(response.data.created_at);
+                    Vue.set(app.startDate = startDate);
+                    Vue.set(app.endDate = endDate);
                 });
             }
         }
