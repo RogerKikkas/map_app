@@ -1,17 +1,17 @@
 <template>
     <div class="container-fluid h-100">
         <navbar :users="users"></navbar>
-        <leaf-map :userdata="users"></leaf-map>
+        <router-view :users="users"></router-view>
     </div>
 </template>
 
 <script>
     export default {
-        name: "MapContainer",
+        name: "AppContainer",
 
         data() {
             return {
-               users: {},
+                users: {},
             }
         },
 

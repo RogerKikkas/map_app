@@ -56,7 +56,7 @@
 
                     success: function() {
                         // handle redirection
-                        this.$router.push({name: 'map'})
+                        this.$router.push({name: 'appMap'})
                     },
 
                     error: function() {
