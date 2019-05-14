@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Coordinate;
+use Carbon\Carbon;
 
 class CoordinatesController extends Controller
 {
@@ -101,5 +102,10 @@ class CoordinatesController extends Controller
         //
     }
 
+    public function userStartDates($id) {
+        $endDate = Coordinate::select('created_at')->where('user_id', $id)->orderBy('created_at', 'desc')->first();
+
+        return $endDate;
+    }
 
 }

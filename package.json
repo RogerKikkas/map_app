@@ -28,10 +28,12 @@
         "@websanova/vue-auth": "^2.21.14-beta",
         "es6-promise": "^4.2.6",
         "leaflet": "^1.4.0",
+        "moment": "^2.24.0",
         "vue-axios": "^2.1.4",
         "vue-clipboard2": "^0.3.0",
         "vue-color": "^2.7.0",
         "vue-router": "^3.0.6",
+        "vue2-daterange-picker": "^0.2.3",
         "vue2-leaflet": "^2.0.3"
     }
 }

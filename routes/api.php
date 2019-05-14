@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->get('userCoordinates/{id}', 'UsersController@userCoordinates');
 Route::middleware('auth:api')->get('/usersForMap', 'UsersController@usersForMap');
+Route::middleware('auth:api')->get('/userStartDates/{id}', 'CoordinatesController@userStartDates');
 Route::post('log', 'CoordinatesController@store');
 
 // Authenticated routes for logging in, registering etc..

@@ -30,7 +30,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <span class="oi oi-calendar"></span>
+                    <date-range-picker
+                            :startDate="startDate"
+                            :endDate="endDate"
+                            @update="dateUpdate"
+                            :locale-data="locale"
+                            :opens="opens"
+                    >
+                    </date-range-picker>
                 </li>
 
             </ul>
@@ -56,14 +63,80 @@
 </template>
 
 <script>
+    import * as moment from 'moment';
+    import DateRangePicker from 'vue2-daterange-picker';
+    import 'vue2-daterange-picker/dist/lib/vue-daterange-picker.min.css';
+
     export default {
         name: "Navbar",
+
+        components: { DateRangePicker },
 
         props: {
             users: {
                 type: Object/Array,
                     required: true
+            },
+            userStartDate: {
+                type: Object/Array,
+                default: moment().subtract(1, 'days'),
+            },
+            userEndDate: {
+                type: Object/Array,
+                default: moment(),
             }
+        },
+
+        data() {
+            return {
+                startDate: moment().subtract(1, 'days'),
+                endDate: moment(),
+                opens: "right",
+                locale: {
+                    direction: 'ltr',
+                    format: 'DD-MM-YYYY', //fomart of the dates displayed
+                    separator: ' - ', //separator between the two ranges
+                    applyLabel: 'Apply',
+                    cancelLabel: 'Cancel',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: moment.weekdaysMin(), //array of days - see moment documenations for details
+                    monthNames: moment.monthsShort(), //array of month names - see moment documenations for details
+                    firstDay: 1, //ISO first day of week - see moment documentations for details
+                    showWeekNumbers: true, //show week numbers on each row of the calendar
+                    showDropdowns: true,
+                },
+                ranges: { //default value for ranges object (if you set this to false ranges will no be rendered)
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'This month': [moment().startOf('month'), moment().endOf('month')],
+                    'This year': [moment().startOf('year'), moment().endOf('year')],
+                    'Last week': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
+                    'Last month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                }
+            }
+        },
+
+        computed: {
+            startDate2() {
+                return {...this.userStartDate}
+            },
+        },
+
+        mounted() {
+            console.log(this);
+            console.log('----');
+            let app = this;
+            Vue.nextTick(function () {
+                console.log(app.userEndDate);
+            });
+            //Vue.set(this.endDate, this.userEndDate);
+        },
+
+        created() {
+            console.log(this.userEndDate);
+            //this.startDate = this.userStartDate;
+            Vue.set(this.endDate, this.userEndDate);
         },
 
         methods: {
@@ -84,6 +157,10 @@
                     response.data[0].showCoordinates = true;
                     Vue.set(app.users, id, response.data[0]);
                 });
+            },
+
+            dateUpdate() {
+                console.log('update');
             }
         }
 
