@@ -97,8 +97,8 @@
                 opens: "right",
                 locale: {
                     direction: 'ltr',
-                    format: 'DD-MM-YYYY', //fomart of the dates displayed
-                    separator: ' - ', //separator between the two ranges
+                    format: 'DD-MM-YYYY',
+                    separator: ' - ',
                     applyLabel: 'Apply',
                     cancelLabel: 'Cancel',
                     weekLabel: 'W',
