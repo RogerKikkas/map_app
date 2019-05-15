@@ -3250,7 +3250,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -3283,9 +3282,7 @@ __webpack_require__.r(__webpack_exports__);
       locale: {
         direction: 'ltr',
         format: 'DD-MM-YYYY',
-        //fomart of the dates displayed
         separator: ' - ',
-        //separator between the two ranges
         applyLabel: 'Apply',
         cancelLabel: 'Cancel',
         weekLabel: 'W',
@@ -72900,8 +72897,6 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._m(1),
-            _vm._v(" "),
             _c(
               "li",
               { staticClass: "nav-item" },
@@ -72930,6 +72925,8 @@ var render = function() {
               1
             )
           ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown-divider" }),
           _vm._v(" "),
           _c("ul", { staticClass: "navbar-nav" }, [
             _c("li", { staticClass: "nav-item dropdown" }, [
@@ -73025,16 +73022,6 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-        _vm._v("Date")
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -100025,8 +100012,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.min.js");
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_axios__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vue-clipboard2 */ "./node_modules/vue-clipboard2/vue-clipboard.js");
-/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vue_clipboard2__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-clipboard2 */ "./node_modules/vue-clipboard2/vue-clipboard.js");
+/* harmony import */ var vue_clipboard2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_clipboard2__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var vue_color__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-color */ "./node_modules/vue-color/dist/vue-color.min.js");
 /* harmony import */ var vue_color__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_color__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var vue2_leaflet__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue2-leaflet */ "./node_modules/vue2-leaflet/dist/vue2-leaflet.es.js");
@@ -100064,7 +100051,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_axios__WEBPACK_IMPORTED_MODUL
 
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.axios.defaults.baseURL = '/api';
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_5___default.a, _auth__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_clipboard2__WEBPACK_IMPORTED_MODULE_13___default.a);
+vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_clipboard2__WEBPACK_IMPORTED_MODULE_8___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

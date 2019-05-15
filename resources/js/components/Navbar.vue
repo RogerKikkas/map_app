@@ -26,10 +26,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Date</a>
-                </li>
-
-                <li class="nav-item">
                     <date-range-picker
                             v-model="dateRange"
                             :start-date="userStartDate"
@@ -42,6 +38,9 @@
                 </li>
 
             </ul>
+
+            <div class="dropdown-divider"></div>
+
             <!-- Links -->
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">

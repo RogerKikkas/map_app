@@ -10715,6 +10715,12 @@ body {
   width: 100% !important;
 }
 
+@media only screen and (max-width: 768px) {
+  .fixed-top {
+    position: absolute;
+  }
+}
+
 .form-control::-webkit-input-placeholder {
   opacity: 0.7;
 }
