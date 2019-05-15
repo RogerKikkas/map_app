@@ -19,7 +19,7 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Users</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <div class="dropdown-item" v-for="user in users" @click.stop="toggleUser(user.id)" :key="user.id">
+                        <div class="dropdown-item" v-for="user in users" @click.stop="toggleUser(user.id)" :key="user.id" v-bind:style="{color: user.color, fontWeight: 'bold' }">
                             <input type="checkbox" :checked="user.showCoordinates">{{ user.name }}
                         </div>
                     </div>
@@ -28,9 +28,9 @@
                 <li class="nav-item">
                     <date-range-picker
                             v-model="dateRange"
-                            :start-date="userStartDate"
-                            :end-date="userEndDate"
-                            @update="dateUpdate()"
+                            :start-date="userDateRange.startDate"
+                            :end-date="userDateRange.endDate"
+                            @update="dateUpdate($auth.user().id)"
                             :locale-data="locale"
                             :opens="opens"
                     >
@@ -77,14 +77,9 @@
                 type: Object/Array,
                     required: true
             },
-            userStartDate: {
+            userDateRange: {
                 type: Object/Array,
-                default: moment().subtract(1, 'days'),
             },
-            userEndDate: {
-                type: Object/Array,
-                default: moment(),
-            }
         },
 
         data() {
@@ -133,16 +128,28 @@
 
             getUserCoordinates(id) {
                 let app = this;
-                Vue.axios.get(`/userCoordinates/${id}`).then(function(response) {
-                    response.data[0].showCoordinates = true;
-                    Vue.set(app.users, id, response.data[0]);
+                Vue.axios.get(`/userCoordinates/${id}`, {
+                    params: {
+                        startDate: this.userDateRange.startDate,
+                        endDate: this.userDateRange.endDate,
+                    }
+                }).then(function(response) {
+                    app.users[id].showCoordinates = true;
+                    Vue.set(app.users[id], 'coordinates', response.data);
                 });
             },
 
-            dateUpdate() {
-                Vue.set(this.userStartDate, this.dateRange.startDate);
-                Vue.set(this.userEndDate, this.dateRange.endDate);
+            dateUpdate(id) {
+                Vue.set(this.userDateRange, 'startDate', moment(this.dateRange.startDate));
+                Vue.set(this.userDateRange, 'endDate', moment(this.dateRange.endDate));
+                for (let userId in this.users) {
+                    if (this.users[userId].showCoordinates) {
+                        this.getUserCoordinates(userId);
+                    }
+                }
+                this.$emit('updateRefreshKey');
             }
+
         }
 
     }

@@ -2957,14 +2957,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       users: {},
-      startDate: '',
-      endDate: ''
+      dateRange: {},
+      refreshKey: 0
     };
   },
   mounted: function mounted() {
     this.getAllUsers();
-    this.getStartDates(this.$auth.user().id);
-    this.getUserData(this.$auth.user().id);
+    this.getStartDatesAndInitialUserData(this.$auth.user().id);
   },
   methods: {
     getAllUsers: function getAllUsers() {
@@ -2977,20 +2976,37 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    getUserData: function getUserData(id) {
+    getStartDatesAndInitialUserData: function getStartDatesAndInitialUserData(id) {
       var app = this;
-      Vue.axios.get("/userCoordinates/".concat(id)).then(function (response) {
-        response.data[0].showCoordinates = true;
-        Vue.set(app.users, id, response.data[0]);
-      });
-    },
-    getStartDates: function getStartDates(id) {
-      var app = this;
+      var startDate;
+      var endDate;
       Vue.axios.get("/userStartDates/".concat(id)).then(function (response) {
-        var startDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at).subtract(1, 'days');
-        var endDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at);
+        startDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at).subtract(1, 'days');
+        endDate = moment__WEBPACK_IMPORTED_MODULE_0__(response.data.created_at);
+        Vue.set(app.dateRange, 'startDate', startDate);
+        Vue.set(app.dateRange, 'endDate', endDate);
+        Vue.axios.get("/userCoordinates/".concat(id), {
+          params: {
+            startDate: startDate,
+            endDate: endDate
+          }
+        }).then(function (response) {
+          Vue.set(app.users[id], 'coordinates', response.data);
+          Vue.set(app.users[id], 'showCoordinates', true);
+        });
+      })["catch"](function (error) {
+        startDate = moment__WEBPACK_IMPORTED_MODULE_0__().subtract(1, 'days');
+        endDate = moment__WEBPACK_IMPORTED_MODULE_0__();
         Vue.set(app.startDate = startDate);
         Vue.set(app.endDate = endDate);
+        Vue.axios.get("/userCoordinates/".concat(id), {
+          params: {
+            startDate: startDate,
+            endDate: endDate
+          }
+        }).then(function (response) {
+          Vue.set(app.users[id], 'coordinates', response.data);
+        });
       });
     }
   }
@@ -3263,13 +3279,8 @@ __webpack_require__.r(__webpack_exports__);
       type: Object / Array,
       required: true
     },
-    userStartDate: {
-      type: Object / Array,
-      "default": moment__WEBPACK_IMPORTED_MODULE_0__().subtract(1, 'days')
-    },
-    userEndDate: {
-      type: Object / Array,
-      "default": moment__WEBPACK_IMPORTED_MODULE_0__()
+    userDateRange: {
+      type: Object / Array
     }
   },
   data: function data() {
@@ -3321,14 +3332,27 @@ __webpack_require__.r(__webpack_exports__);
     },
     getUserCoordinates: function getUserCoordinates(id) {
       var app = this;
-      Vue.axios.get("/userCoordinates/".concat(id)).then(function (response) {
-        response.data[0].showCoordinates = true;
-        Vue.set(app.users, id, response.data[0]);
+      Vue.axios.get("/userCoordinates/".concat(id), {
+        params: {
+          startDate: this.userDateRange.startDate,
+          endDate: this.userDateRange.endDate
+        }
+      }).then(function (response) {
+        app.users[id].showCoordinates = true;
+        Vue.set(app.users[id], 'coordinates', response.data);
       });
     },
-    dateUpdate: function dateUpdate() {
-      Vue.set(this.userStartDate, this.dateRange.startDate);
-      Vue.set(this.userEndDate, this.dateRange.endDate);
+    dateUpdate: function dateUpdate(id) {
+      Vue.set(this.userDateRange, 'startDate', moment__WEBPACK_IMPORTED_MODULE_0__(this.dateRange.startDate));
+      Vue.set(this.userDateRange, 'endDate', moment__WEBPACK_IMPORTED_MODULE_0__(this.dateRange.endDate));
+
+      for (var userId in this.users) {
+        if (this.users[userId].showCoordinates) {
+          this.getUserCoordinates(userId);
+        }
+      }
+
+      this.$emit('updateRefreshKey');
     }
   }
 });
@@ -3464,7 +3488,9 @@ __webpack_require__.r(__webpack_exports__);
           name: app.name,
           email: app.email,
           password: app.password,
-          password_confirmation: app.password_confirmation
+          password_confirmation: app.password_confirmation,
+          token: app.token,
+          color: app.color.hex
         },
         success: function success(res) {
           this.showRegisteredModal = true;
@@ -72543,12 +72569,17 @@ var render = function() {
       _c("navbar", {
         attrs: {
           users: _vm.users,
-          userStartDate: _vm.startDate,
-          userEndDate: _vm.endDate
+          userDateRange: _vm.dateRange,
+          value: _vm.refreshKey
+        },
+        on: {
+          updateRefreshKey: function($event) {
+            _vm.refreshKey += 1
+          }
         }
       }),
       _vm._v(" "),
-      _c("router-view", { attrs: { users: _vm.users } })
+      _c("router-view", { key: _vm.refreshKey, attrs: { users: _vm.users } })
     ],
     1
   )
@@ -72877,6 +72908,7 @@ var render = function() {
                     {
                       key: user.id,
                       staticClass: "dropdown-item",
+                      style: { color: user.color, fontWeight: "bold" },
                       on: {
                         click: function($event) {
                           $event.stopPropagation()
@@ -72903,14 +72935,14 @@ var render = function() {
               [
                 _c("date-range-picker", {
                   attrs: {
-                    "start-date": _vm.userStartDate,
-                    "end-date": _vm.userEndDate,
+                    "start-date": _vm.userDateRange.startDate,
+                    "end-date": _vm.userDateRange.endDate,
                     "locale-data": _vm.locale,
                     opens: _vm.opens
                   },
                   on: {
                     update: function($event) {
-                      return _vm.dateUpdate()
+                      _vm.dateUpdate(_vm.$auth.user().id)
                     }
                   },
                   model: {

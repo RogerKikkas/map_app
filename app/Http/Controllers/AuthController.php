@@ -30,6 +30,8 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $user->api_token = $request->token;
+        $user->color = $request->color;
         $user->save();
 
         return response()->json(['status' => 'success'], 200);

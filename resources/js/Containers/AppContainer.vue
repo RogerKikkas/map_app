@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid h-100">
-        <navbar :users="users" :userStartDate="startDate" :userEndDate="endDate"></navbar>
-        <router-view :users="users"></router-view>
+        <navbar :users="users" :userDateRange="dateRange" v-bind:value="refreshKey" v-on:updateRefreshKey="refreshKey += 1"></navbar>
+        <router-view :users="users" :key="refreshKey"></router-view>
     </div>
 </template>
 
@@ -14,15 +14,14 @@
         data() {
             return {
                 users: {},
-                startDate: '',
-                endDate: '',
+                dateRange: {},
+                refreshKey: 0,
             }
         },
 
         mounted() {
             this.getAllUsers();
-            this.getStartDates(this.$auth.user().id);
-            this.getUserData(this.$auth.user().id);
+            this.getStartDatesAndInitialUserData(this.$auth.user().id);
         },
 
         methods: {
@@ -35,23 +34,43 @@
                 }));
             },
 
-            getUserData(id) {
+            getStartDatesAndInitialUserData(id) {
                 let app = this;
-                Vue.axios.get(`/userCoordinates/${id}`).then(function(response) {
-                    response.data[0].showCoordinates = true;
-                    Vue.set(app.users, id, response.data[0]);
+                let startDate;
+                let endDate;
+                Vue.axios.get(`/userStartDates/${id}`).then(function(response) {
+                    startDate = moment(response.data.created_at).subtract(1, 'days');
+                    endDate = moment(response.data.created_at);
+                    Vue.set(app.dateRange, 'startDate', startDate);
+                    Vue.set(app.dateRange, 'endDate', endDate);
+
+                    Vue.axios.get(`/userCoordinates/${id}`, {
+                        params: {
+                            startDate: startDate,
+                            endDate: endDate,
+                        }
+                    }).then(function(response) {
+                        Vue.set(app.users[id], 'coordinates', response.data);
+                        Vue.set(app.users[id], 'showCoordinates', true);
+                    });
+
+                }).catch(function(error) {
+                    startDate = moment().subtract(1, 'days');
+                    endDate = moment();
+                    Vue.set(app.startDate = startDate);
+                    Vue.set(app.endDate = endDate);
+
+                    Vue.axios.get(`/userCoordinates/${id}`, {
+                        params: {
+                            startDate: startDate,
+                            endDate: endDate,
+                        }
+                    }).then(function(response) {
+                        Vue.set(app.users[id], 'coordinates', response.data);
+                    });
                 });
             },
 
-            getStartDates(id) {
-                let app = this;
-                Vue.axios.get(`/userStartDates/${id}`).then(function(response) {
-                    let startDate = moment(response.data.created_at).subtract(1, 'days');
-                    let endDate = moment(response.data.created_at);
-                    Vue.set(app.startDate = startDate);
-                    Vue.set(app.endDate = endDate);
-                });
-            }
         }
     }
 </script>

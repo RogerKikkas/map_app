@@ -120,7 +120,9 @@
                         name: app.name,
                         email: app.email,
                         password: app.password,
-                        password_confirmation: app.password_confirmation
+                        password_confirmation: app.password_confirmation,
+                        token: app.token,
+                        color: app.color.hex
                     },
                     success: function (res) {
                         this.showRegisteredModal = true;

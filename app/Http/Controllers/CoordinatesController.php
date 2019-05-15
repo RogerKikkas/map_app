@@ -108,4 +108,27 @@ class CoordinatesController extends Controller
         return $endDate;
     }
 
+    public function userCoordinates($id, Request $request){
+
+        if (!$id) {
+            return response()->json(['error' => 'No id']);
+        }
+
+        // Get start and end date from request
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
+        // Remove double quotes from start and end date
+        $startDate = trim($startDate, '""');
+        $endDate = trim($endDate, '""');
+
+        // Create a new Carbon object with start and end dates and then reformat them to be usable by Eloquent
+        $startDate = (new Carbon($startDate))->setTime(0, 0, 0)->format('Y-m-d:H:i:s');
+        $endDate = (new Carbon($endDate))->setTime(23, 59, 59)->format('Y-m-d:H:i:s');
+
+        $coordinates = Coordinate::select('id', 'user_id', 'lat', 'lng')->where('user_id', $id)->whereBetween('created_at', [$startDate, $endDate])->get();
+
+        return $coordinates;
+    }
+
 }

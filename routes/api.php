@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->get('userCoordinates/{id}', 'UsersController@userCoordinates');
+Route::middleware('auth:api')->get('userCoordinates/{id}', 'CoordinatesController@userCoordinates');
 Route::middleware('auth:api')->get('/usersForMap', 'UsersController@usersForMap');
 Route::middleware('auth:api')->get('/userStartDates/{id}', 'CoordinatesController@userStartDates');
 Route::post('log', 'CoordinatesController@store');

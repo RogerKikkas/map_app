@@ -95,14 +95,6 @@ class UsersController extends Controller
         //
     }
 
-    public function userCoordinates($id = 0){
-        $user = User::select('id', 'name', 'color')->with(['coordinates' => function($q){
-            $q->select('id', 'user_id', 'lat', 'lng');
-        }])->where("id", $id)->get();
-
-        return $user;
-    }
-
     public function usersForMap() {
         $users = User::select('id', 'name', 'color')->get();
 
