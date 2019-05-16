@@ -42,6 +42,11 @@
                                 </div>
                                 <chrome-picker class="color-picker" :value="color" v-if="showColorPicker" v-model="color"></chrome-picker>
                             </div>
+                            <div class="form-group" v-bind:class="{'has-error': has_error && errors.secret_code}">
+                                <label for="password">Secret code</label>
+                                <input type="password" id="secret_code" class="form-control" v-model="secret_code" required>
+                                <span class="help-block" v-if="has_error && errors.secret_code">{{ errors.secret_code[0] }}</span>
+                            </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-block btn-success">Register</button>
                             </div>
@@ -64,6 +69,7 @@
                 email: '',
                 password: '',
                 password_confirmation: '',
+                secret_code: '',
                 token: '',
                 has_error: false,
                 error: '',
@@ -101,6 +107,7 @@
                         email: app.email,
                         password: app.password,
                         password_confirmation: app.password_confirmation,
+                        secret_code: app.secret_code,
                         token: app.token,
                         color: app.color.hex
                     },

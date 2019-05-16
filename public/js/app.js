@@ -3549,6 +3549,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3556,6 +3561,7 @@ __webpack_require__.r(__webpack_exports__);
       email: '',
       password: '',
       password_confirmation: '',
+      secret_code: '',
       token: '',
       has_error: false,
       error: '',
@@ -3592,6 +3598,7 @@ __webpack_require__.r(__webpack_exports__);
           email: app.email,
           password: app.password,
           password_confirmation: app.password_confirmation,
+          secret_code: app.secret_code,
           token: app.token,
           color: app.color.hex
         },
@@ -73946,6 +73953,53 @@ var render = function() {
                         : _vm._e()
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "form-group",
+                      class: {
+                        "has-error": _vm.has_error && _vm.errors.secret_code
+                      }
+                    },
+                    [
+                      _c("label", { attrs: { for: "password" } }, [
+                        _vm._v("Secret code")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.secret_code,
+                            expression: "secret_code"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "password",
+                          id: "secret_code",
+                          required: ""
+                        },
+                        domProps: { value: _vm.secret_code },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.secret_code = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.has_error && _vm.errors.secret_code
+                        ? _c("span", { staticClass: "help-block" }, [
+                            _vm._v(_vm._s(_vm.errors.secret_code[0]))
+                          ])
+                        : _vm._e()
+                    ]
                   ),
                   _vm._v(" "),
                   _vm._m(0),

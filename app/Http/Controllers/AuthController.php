@@ -16,6 +16,7 @@ class AuthController extends Controller
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
             'password'  => 'required|min:3|confirmed',
+            'secret_code' => 'required'
         ]);
 
         if ($v->fails())
@@ -23,6 +24,14 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => $v->errors()
+            ], 422);
+        }
+
+        if ($request['secret_code'] !== env("SECRET_CODE")) {
+            $v->errors()->add('secret_code', 'Wrong secret code!');
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors(),
             ], 422);
         }
 
