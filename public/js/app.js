@@ -73959,7 +73959,9 @@ var render = function() {
           [
             _c("l-popup", [
               _c("ul", [
-                _c("li", [_vm._v("Date: " + _vm._s(coordinate.created_at))]),
+                _c("li", [
+                  _vm._v("Date: " + _vm._s(coordinate.created_at) + " UTC")
+                ]),
                 _vm._v(" "),
                 _c("li", [_vm._v("Lat: " + _vm._s(coordinate.lat))]),
                 _vm._v(" "),
