@@ -17,7 +17,7 @@ class CreateCoordinatesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->double('lat', 8);
-            $table->double('lng', 8);
+            $table->double('lon', 8);
             $table->float('speed')->default(0);
             $table->float('altitude')->default(0);
             $table->float('travelled')->default(0);

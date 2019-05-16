@@ -45,13 +45,13 @@ class CoordinatesController extends Controller
 
         $attributes = $request->validate([
             'lat' => 'required',
-            'lng' => 'required',
-            'speed' => 'nullable',
-            'altitude' => 'nullable',
-            'travelled' => 'nullable',
+            'lon' => 'required',
         ]);
 
         $attributes["user_id"] = $user["id"];
+        $attributes["speed"] = $request["spd"];
+        $attributes["altitude"] = $request["alt"];
+        $attributes["travelled"] = $request["dist"];
 
         if ($request['time']) {
             $attributes["created_at"] = date('Y-m-d H:i:s', strtotime($request['time']));
@@ -135,7 +135,7 @@ class CoordinatesController extends Controller
         $startDate = (new Carbon($startDate))->setTime(0, 0, 0)->format('Y-m-d:H:i:s');
         $endDate = (new Carbon($endDate))->setTime(23, 59, 59)->format('Y-m-d:H:i:s');
 
-        $coordinates = Coordinate::select('id', 'user_id', 'lat', 'lng', 'speed', 'altitude', 'travelled', 'created_at')->where('user_id', $id)->whereBetween('created_at', [$startDate, $endDate])->get();
+        $coordinates = Coordinate::select('id', 'user_id', 'lat', 'lon', 'speed', 'altitude', 'travelled', 'created_at')->where('user_id', $id)->whereBetween('created_at', [$startDate, $endDate])->get();
 
         return $coordinates;
     }

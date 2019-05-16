@@ -1,11 +1,11 @@
 <template>
     <div>
-        <l-circle-marker v-for="coordinate in coordinates" :lat-lng="[coordinate.lat, coordinate.lng]" :key="coordinate.id" :color="color" :radius="radius">
+        <l-circle-marker v-for="coordinate in coordinates" :lat-lng="[coordinate.lat, coordinate.lon]" :key="coordinate.id" :color="color" :radius="radius">
             <l-popup>
                 <ul>
                     <li>Date: {{ coordinate.created_at }} UTC</li>
                     <li>Lat: {{ coordinate.lat }}</li>
-                    <li>Lng: {{ coordinate.lng }}</li>
+                    <li>Lon: {{ coordinate.lon }}</li>
                     <li>Speed: {{ coordinate.speed }} km/h</li>
                     <li>Altitude: {{ coordinate.altitude }} m</li>
                     <li>Travelled: {{ coordinate.travelled }} m</li>
@@ -33,7 +33,7 @@
                 radius: 3,
                 coordinates: this.userdata.coordinates,
                 color: this.userdata.color,
-                polyline: this.userdata.coordinates.map((x) => [x.lat, x.lng])
+                polyline: this.userdata.coordinates.map((x) => [x.lat, x.lon])
             }
         }
     }

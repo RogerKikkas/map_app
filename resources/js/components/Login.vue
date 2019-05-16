@@ -21,7 +21,7 @@
                                 <button type="submit" class="btn btn-block btn-primary">Login</button>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-block btn-success" @click.prevent="$router.push({name: 'register'})">Register</button>
+                                <button type="submit" class="btn btn-block btn-success" @click.prevent="$router.push({name: 'register'})">Go to Register</button>
                             </div>
                         </form>
                     </div>

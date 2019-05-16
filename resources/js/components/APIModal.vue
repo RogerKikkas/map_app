@@ -78,14 +78,14 @@
 
         data() {
             return {
-                apiURL: websiteURL + '/log',
+                apiURL: websiteURL + '/api/log',
                 method: 'POST',
             }
         },
 
         computed: {
             httpBody() {
-                return 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+                return 'lat=%LAT&lon=%LON&spd=%SPD&alt=%ALT&dist=%DIST&time=%TIME&token=' + this.token;
             }
         },
 

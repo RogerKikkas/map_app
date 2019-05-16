@@ -3103,13 +3103,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      apiURL: _app_js__WEBPACK_IMPORTED_MODULE_0__["websiteURL"] + '/log',
+      apiURL: _app_js__WEBPACK_IMPORTED_MODULE_0__["websiteURL"] + '/api/log',
       method: 'POST'
     };
   },
   computed: {
     httpBody: function httpBody() {
-      return 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+      return 'lat=%LAT&lon=%LON&spd=%SPD&alt=%ALT&dist=%DIST&time=%TIME&token=' + this.token;
     }
   },
   methods: {
@@ -3661,7 +3661,7 @@ __webpack_require__.r(__webpack_exports__);
       coordinates: this.userdata.coordinates,
       color: this.userdata.color,
       polyline: this.userdata.coordinates.map(function (x) {
-        return [x.lat, x.lng];
+        return [x.lat, x.lon];
       })
     };
   }
@@ -73377,7 +73377,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Register")]
+                    [_vm._v("Go to Register")]
                   )
                 ])
               ]
@@ -74017,7 +74017,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Login")]
+                      [_vm._v("Go to Login")]
                     )
                   ])
                 ]
@@ -74076,7 +74076,7 @@ var render = function() {
           {
             key: coordinate.id,
             attrs: {
-              "lat-lng": [coordinate.lat, coordinate.lng],
+              "lat-lng": [coordinate.lat, coordinate.lon],
               color: _vm.color,
               radius: _vm.radius
             }
@@ -74090,7 +74090,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("li", [_vm._v("Lat: " + _vm._s(coordinate.lat))]),
                 _vm._v(" "),
-                _c("li", [_vm._v("Lng: " + _vm._s(coordinate.lng))]),
+                _c("li", [_vm._v("Lon: " + _vm._s(coordinate.lon))]),
                 _vm._v(" "),
                 _c("li", [
                   _vm._v("Speed: " + _vm._s(coordinate.speed) + " km/h")
