@@ -2993,6 +2993,7 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (response) {
           Vue.set(app.users[id], 'coordinates', response.data);
           Vue.set(app.users[id], 'showCoordinates', true);
+          Vue.set(app.users[id], 'email', app.$auth.user().email);
         });
       })["catch"](function (error) {
         startDate = moment__WEBPACK_IMPORTED_MODULE_0__().subtract(1, 'days');
@@ -3006,6 +3007,8 @@ __webpack_require__.r(__webpack_exports__);
           }
         }).then(function (response) {
           Vue.set(app.users[id], 'coordinates', response.data);
+          Vue.set(app.users[id], 'showCoordinates', true);
+          Vue.set(app.users[id], 'email', app.$auth.user().email);
         });
       });
     }
@@ -3592,10 +3595,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    users: {
+      type: Object / Array,
+      required: true
+    }
+  },
   data: function data() {
-    return {//
+    return {
+      errors: {},
+      currentUser: this.$auth.user().id,
+      showColorPicker: false,
+      color: {}
     };
+  },
+  methods: {
+    updateColor: function updateColor() {
+      Vue.set(this.users[this.currentUser], 'color', this.color.hex);
+    }
   },
   components: {//
   }
@@ -73160,10 +73223,7 @@ var render = function() {
               staticClass: "modal fade",
               on: {
                 click: function($event) {
-                  if ($event.target !== $event.currentTarget) {
-                    return null
-                  }
-                  return _vm.redirectToLogin($event)
+                  $event.preventDefault()
                 }
               }
             },
@@ -73242,7 +73302,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-primary",
+                          staticClass: "btn btn-block btn-primary",
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
@@ -73661,17 +73721,155 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "card card-default" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Dashboard")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.$auth.user().name) + "\n        ")
+  return _c(
+    "div",
+    {
+      staticClass: "col-md-4 offset-md-4",
+      staticStyle: { "margin-top": "20px" }
+    },
+    [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _vm.users[_vm.currentUser]
+                ? _c("form", [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-4 col-form-label font-weight-bold"
+                        },
+                        [_vm._v("Name: ")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-8" }, [
+                        _c("label", { staticClass: "col-form-label" }, [
+                          _vm._v(_vm._s(_vm.users[_vm.currentUser].name))
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-4 col-form-label font-weight-bold"
+                        },
+                        [_vm._v("Email: ")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-8" }, [
+                        _c("label", { staticClass: "col-form-label" }, [
+                          _vm._v(_vm._s(_vm.users[_vm.currentUser].email))
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-4 col-form-label font-weight-bold"
+                        },
+                        [_vm._v("Color: ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-8 input-group" },
+                        [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { type: "text", id: "color", disabled: "" },
+                            domProps: {
+                              value: _vm.users[_vm.currentUser].color
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-append" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-secondary",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.showColorPicker = !_vm.showColorPicker
+                                  }
+                                }
+                              },
+                              [_vm._v("Choose color")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm.showColorPicker
+                            ? _c("chrome-picker", {
+                                staticClass: "color-picker",
+                                attrs: {
+                                  value: _vm.users[_vm.currentUser].color
+                                },
+                                on: {
+                                  input: function($event) {
+                                    return _vm.updateColor()
+                                  }
+                                },
+                                model: {
+                                  value: _vm.color,
+                                  callback: function($$v) {
+                                    _vm.color = $$v
+                                  },
+                                  expression: "color"
+                                }
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "offset-4 col-8" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { name: "submit", type: "submit" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                              }
+                            }
+                          },
+                          [_vm._v("Update My Profile")]
+                        )
+                      ])
+                    ])
+                  ])
+                : _vm._e()
+            ])
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12 text-center" }, [
+        _c("h4", [_vm._v("Your Profile")]),
+        _vm._v(" "),
+        _c("hr")
       ])
     ])
-  ])
-}
-var staticRenderFns = []
+  }
+]
 render._withStripped = true
 
 

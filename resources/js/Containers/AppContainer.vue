@@ -52,6 +52,7 @@
                     }).then(function(response) {
                         Vue.set(app.users[id], 'coordinates', response.data);
                         Vue.set(app.users[id], 'showCoordinates', true);
+                        Vue.set(app.users[id], 'email', app.$auth.user().email);
                     });
 
                 }).catch(function(error) {
@@ -67,6 +68,8 @@
                         }
                     }).then(function(response) {
                         Vue.set(app.users[id], 'coordinates', response.data);
+                        Vue.set(app.users[id], 'showCoordinates', true);
+                        Vue.set(app.users[id], 'email', app.$auth.user().email);
                     });
                 });
             },

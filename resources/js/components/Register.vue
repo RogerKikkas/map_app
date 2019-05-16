@@ -2,7 +2,7 @@
     <div class="container h-100">
         <!-- MODAL -->
         <transition @enter="startTransitionModal" @after-enter="endTransitionModal" @before-leave="endTransitionModal" @after-leave="startTransitionModal">
-            <div class="modal fade" v-show="showRegisteredModal" ref="modal" @click.self="redirectToLogin">
+            <div class="modal fade" v-show="showRegisteredModal" ref="modal" @click.prevent="">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="button" @click.prevent="redirectToLogin()">Go to Login</button>
+                            <button class="btn btn-block btn-primary" type="button" @click.prevent="redirectToLogin()">Go to Login</button>
                         </div>
                     </div>
                 </div>
