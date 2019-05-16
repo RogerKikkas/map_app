@@ -6,6 +6,8 @@
                    :registered="false">
         </api-modal>
 
+        <flash-message class="myCustomClass"></flash-message>
+
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -66,6 +68,8 @@
     </div>
 </template>
 <script>
+    require('vue-flash-message/dist/vue-flash-message.min.css');
+
     export default {
 
         props: {
@@ -96,8 +100,15 @@
                     color: this.users[id].color,
                 }).then(function(response) {
                     Vue.set(app.users[id], 'color', app.color.hex);
+                    app.flash('User updated', 'success', {
+                        timeout: 3000,
+                    });
+                    app.showColorPicker = false;
                 }).catch(function(error) {
-                    console.log(error);
+                    app.flash('User update failed', 'error', {
+                        timeout: 3000,
+                    });
+                    app.showColorPicker = false;
                 });
             }
         },

@@ -6,7 +6,7 @@
                     <li>Date: {{ coordinate.created_at }} UTC</li>
                     <li>Lat: {{ coordinate.lat }}</li>
                     <li>Lng: {{ coordinate.lng }}</li>
-                    <li>Speed: {{ coordinate.speed }} m/s</li>
+                    <li>Speed: {{ coordinate.speed }} km/h</li>
                     <li>Altitude: {{ coordinate.altitude }} m</li>
                     <li>Travelled: {{ coordinate.travelled }} m</li>
                 </ul>

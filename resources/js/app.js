@@ -18,6 +18,7 @@ import VueClipboard from 'vue-clipboard2';
 import { Chrome } from 'vue-color'
 import { LMap, LTileLayer, LMarker, LPolyline, LPopup, LCircleMarker, LTooltip } from 'vue2-leaflet';
 import { Icon } from 'leaflet';
+import VueFlashMessage from 'vue-flash-message';
 import 'leaflet/dist/leaflet.css';
 
 // This shows up on API token modal to show the user the API endpoint
@@ -37,6 +38,7 @@ Vue.axios.defaults.baseURL = '/api';
 Vue.use(VueAuth, auth);
 
 Vue.use(VueClipboard);
+Vue.use(VueFlashMessage);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
