@@ -3,8 +3,12 @@
         <l-circle-marker v-for="coordinate in coordinates" :lat-lng="[coordinate.lat, coordinate.lng]" :key="coordinate.id" :color="color" :radius="radius">
             <l-popup>
                 <ul>
+                    <li>Date: {{ coordinate.created_at }}</li>
                     <li>Lat: {{ coordinate.lat }}</li>
                     <li>Lng: {{ coordinate.lng }}</li>
+                    <li>Speed: {{ coordinate.speed }} m/s</li>
+                    <li>Altitude: {{ coordinate.altitude }} m</li>
+                    <li>Travelled: {{ coordinate.travelled }} m</li>
                 </ul>
             </l-popup>
         </l-circle-marker>
@@ -36,5 +40,7 @@
 </script>
 
 <style scoped>
-
+ul {
+    padding: 0;
+}
 </style>

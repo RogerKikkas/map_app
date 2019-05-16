@@ -14,8 +14,8 @@ class CoordinatesTableSeeder extends Seeder
     {
         DB::table('coordinates')->insert([
             'user_id' => '1',
-            'lat' => 58.356634,
-            'lng' => 26.723277,
+            'lat' => 58.363680,
+            'lng' => 26.720988,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);

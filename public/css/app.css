@@ -10721,6 +10721,10 @@ body {
   }
 }
 
+.navbar-collapse {
+  font-size: 1rem;
+}
+
 .form-control::-webkit-input-placeholder {
   opacity: 0.7;
 }
