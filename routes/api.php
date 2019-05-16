@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->get('userCoordinates/{id}', 'CoordinatesController@userCoordinates');
 Route::middleware('auth:api')->get('/usersForMap', 'UsersController@usersForMap');
 Route::middleware('auth:api')->get('/userStartDates/{id}', 'CoordinatesController@userStartDates');
+Route::middleware('auth:api')->post('/users/{id}', 'UsersController@update');
+
+// Route for storing new coordinates to DB
 Route::post('log', 'CoordinatesController@store');
 
 // Authenticated routes for logging in, registering etc..

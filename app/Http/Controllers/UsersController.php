@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -81,7 +82,16 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = Auth::user();
+        $user->color = $request['color'];
+
+        $user->save();
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'user' => $user
+            ], 200);
     }
 
     /**

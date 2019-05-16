@@ -1,7 +1,11 @@
 <template>
     <div class="container h-100">
         <!-- MODAL -->
-        <api-modal :open="showRegisteredModal" :token="token" v-on:toggleAPIModal="showRegisteredModal = !showRegisteredModal"></api-modal>
+        <api-modal :open="showAPIModal"
+                   :token="token"
+                   v-on:toggleAPIModal="showAPIModal = !showAPIModal"
+                   :registered="true">
+        </api-modal>
 
         <!-- FORM -->
         <div class="row h-100">
@@ -66,7 +70,7 @@
                 errors: {},
                 color: { hex: ''},
                 showColorPicker: false,
-                showRegisteredModal: false,
+                showAPIModal: false,
             }
         },
 
@@ -101,7 +105,7 @@
                         color: app.color.hex
                     },
                     success: function (res) {
-                        this.showRegisteredModal = true;
+                        this.showAPIModal = true;
                     },
                     error: function (res) {
                         app.has_error = true;

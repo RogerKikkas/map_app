@@ -3090,22 +3090,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "APIModal",
   props: {
     open: Boolean,
-    token: String
+    token: String,
+    registered: Boolean
   },
   data: function data() {
     return {
       apiURL: _app_js__WEBPACK_IMPORTED_MODULE_0__["websiteURL"] + '/log',
-      method: 'POST',
-      httpBody: ''
+      method: 'POST'
     };
   },
-  mounted: function mounted() {
-    this.httpBody = 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+  computed: {
+    httpBody: function httpBody() {
+      return 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+    }
   },
   methods: {
     startTransitionModal: function startTransitionModal() {
@@ -3121,6 +3126,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push({
         name: 'login'
       });
+    },
+    handleClose: function handleClose() {
+      if (!this.registered) {
+        this.$emit('toggleAPIModal');
+      }
     }
   }
 });
@@ -3535,6 +3545,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3550,7 +3564,7 @@ __webpack_require__.r(__webpack_exports__);
         hex: ''
       },
       showColorPicker: false,
-      showRegisteredModal: false
+      showAPIModal: false
     };
   },
   mounted: function mounted() {
@@ -3582,7 +3596,7 @@ __webpack_require__.r(__webpack_exports__);
           color: app.color.hex
         },
         success: function success(res) {
-          this.showRegisteredModal = true;
+          this.showAPIModal = true;
         },
         error: function error(res) {
           app.has_error = true;
@@ -3712,6 +3726,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     users: {
@@ -3724,12 +3750,23 @@ __webpack_require__.r(__webpack_exports__);
       errors: {},
       currentUser: this.$auth.user().id,
       showColorPicker: false,
-      color: {}
+      color: {},
+      showAPIModal: false
     };
   },
+  mounted: function mounted() {
+    Vue.set(this.color, 'hex', this.$auth.user().color);
+  },
   methods: {
-    updateColor: function updateColor() {
-      Vue.set(this.users[this.currentUser], 'color', this.color.hex);
+    updateUser: function updateUser(id) {
+      var app = this;
+      Vue.axios.post("/users/".concat(id), {
+        color: this.users[id].color
+      }).then(function (response) {
+        Vue.set(app.users[id], 'color', app.color.hex);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   components: {//
@@ -72820,12 +72857,7 @@ var render = function() {
                 }
               ],
               ref: "modal",
-              staticClass: "modal fade",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                }
-              }
+              staticClass: "modal fade"
             },
             [
               _c(
@@ -72834,14 +72866,17 @@ var render = function() {
                 [
                   _c("div", { staticClass: "modal-content" }, [
                     _c("div", { staticClass: "modal-header" }, [
-                      _c(
-                        "h5",
-                        {
-                          staticClass: "modal-title",
-                          attrs: { id: "exampleModalLabel" }
-                        },
-                        [_vm._v("You have successfully registered")]
-                      ),
+                      _vm.registered
+                        ? _c("h5", { staticClass: "modal-title" }, [
+                            _vm._v("You have successfully registered")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.registered
+                        ? _c("h5", { staticClass: "modal-title" }, [
+                            _vm._v("API Guide")
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "button",
@@ -72850,7 +72885,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              _vm.showModal = false
+                              return _vm.handleClose()
                             }
                           }
                         },
@@ -73021,20 +73056,39 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-block btn-primary",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.redirectToLogin()
-                            }
-                          }
-                        },
-                        [_vm._v("Go to Login")]
-                      )
+                      _vm.registered
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-block btn-primary",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.redirectToLogin()
+                                }
+                              }
+                            },
+                            [_vm._v("Go to Login")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.registered
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-block btn-primary",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.handleClose()
+                                }
+                              }
+                            },
+                            [_vm._v("Close modal")]
+                          )
+                        : _vm._e()
                     ])
                   ])
                 ]
@@ -73044,7 +73098,16 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", { ref: "backdrop", staticClass: "modal-backdrop fade d-none" })
+      _c("div", {
+        ref: "backdrop",
+        staticClass: "modal-backdrop fade d-none",
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.test()
+          }
+        }
+      })
     ],
     1
   )
@@ -73547,10 +73610,10 @@ var render = function() {
     { staticClass: "container h-100" },
     [
       _c("api-modal", {
-        attrs: { open: _vm.showRegisteredModal, token: _vm.token },
+        attrs: { open: _vm.showAPIModal, token: _vm.token, registered: true },
         on: {
           toggleAPIModal: function($event) {
-            _vm.showRegisteredModal = !_vm.showRegisteredModal
+            _vm.showAPIModal = !_vm.showAPIModal
           }
         }
       }),
@@ -73959,6 +74022,19 @@ var render = function() {
       staticStyle: { "margin-top": "20px" }
     },
     [
+      _c("api-modal", {
+        attrs: {
+          open: _vm.showAPIModal,
+          token: _vm.$auth.user().api_token,
+          registered: false
+        },
+        on: {
+          toggleAPIModal: function($event) {
+            _vm.showAPIModal = !_vm.showAPIModal
+          }
+        }
+      }),
+      _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
           _vm._m(0),
@@ -74015,9 +74091,7 @@ var render = function() {
                           _c("input", {
                             staticClass: "form-control",
                             attrs: { type: "text", id: "color", disabled: "" },
-                            domProps: {
-                              value: _vm.users[_vm.currentUser].color
-                            }
+                            domProps: { value: _vm.color.hex }
                           }),
                           _vm._v(" "),
                           _c("div", { staticClass: "input-group-append" }, [
@@ -74042,11 +74116,6 @@ var render = function() {
                                 attrs: {
                                   value: _vm.users[_vm.currentUser].color
                                 },
-                                on: {
-                                  input: function($event) {
-                                    return _vm.updateColor()
-                                  }
-                                },
                                 model: {
                                   value: _vm.color,
                                   callback: function($$v) {
@@ -74062,6 +74131,32 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-4 col-form-label font-weight-bold"
+                        },
+                        [_vm._v("API Token: ")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-8" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-block btn-outline-secondary",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.showAPIModal = !_vm.showAPIModal
+                              }
+                            }
+                          },
+                          [_vm._v("Show API guide")]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
                       _c("div", { staticClass: "offset-4 col-8" }, [
                         _c(
                           "button",
@@ -74071,6 +74166,7 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
+                                return _vm.updateUser(_vm.currentUser)
                               }
                             }
                           },
@@ -74084,7 +74180,8 @@ var render = function() {
           ])
         ])
       ])
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = [

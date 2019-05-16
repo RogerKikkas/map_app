@@ -1,12 +1,13 @@
 <template>
     <div>
         <transition @enter="startTransitionModal" @after-enter="endTransitionModal" @before-leave="endTransitionModal" @after-leave="startTransitionModal">
-            <div class="modal fade" v-show="open" ref="modal" @click.prevent="">
+            <div class="modal fade" v-show="open" ref="modal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">You have successfully registered</h5>
-                            <button class="close" type="button" @click="showModal = false"><span aria-hidden="true">×</span></button>
+                            <h5 class="modal-title" v-if="registered">You have successfully registered</h5>
+                            <h5 class="modal-title" v-if="!registered">API Guide</h5>
+                            <button class="close" type="button" @click="handleClose()"><span aria-hidden="true">×</span></button>
                         </div>
                         <div class="modal-body">
                             <h3>Setting up the GPS app</h3>
@@ -51,13 +52,15 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-block btn-primary" type="button" @click.prevent="redirectToLogin()">Go to Login</button>
+                            <button v-if="registered" class="btn btn-block btn-primary" type="button" @click.prevent="redirectToLogin()">Go to Login</button>
+                            <button v-if="!registered" class="btn btn-block btn-primary" type="button" @click.prevent="handleClose()">Close modal</button>
                         </div>
                     </div>
                 </div>
             </div>
         </transition>
-        <div class="modal-backdrop fade d-none" ref="backdrop"></div>
+
+        <div class="modal-backdrop fade d-none" ref="backdrop" @click.prevent="test()"></div>
     </div>
 </template>
 
@@ -70,18 +73,20 @@
         props: {
             open: Boolean,
             token: String,
+            registered: Boolean,
         },
 
         data() {
             return {
                 apiURL: websiteURL + '/log',
                 method: 'POST',
-                httpBody: '',
             }
         },
 
-        mounted() {
-            this.httpBody = 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+        computed: {
+            httpBody() {
+                return 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+            }
         },
 
         methods: {
@@ -98,6 +103,12 @@
                 this.$emit('toggleAPIModal');
                 this.$router.push({name: 'login'})
             },
+
+            handleClose() {
+                if (!this.registered) {
+                    this.$emit('toggleAPIModal');
+                }
+            }
         }
     }
 </script>

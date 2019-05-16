@@ -1,5 +1,11 @@
 <template>
     <div class="col-md-4 offset-md-4" style="margin-top:20px">
+        <api-modal :open="showAPIModal"
+                   :token="$auth.user().api_token"
+                   v-on:toggleAPIModal="showAPIModal = !showAPIModal"
+                   :registered="false">
+        </api-modal>
+
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -26,11 +32,17 @@
                             <div class="form-group row">
                                 <label class="col-4 col-form-label font-weight-bold">Color: </label>
                                 <div class="col-8 input-group">
-                                    <input type="text" id="color" class="form-control" :value="users[currentUser].color" disabled>
+                                    <input type="text" id="color" class="form-control" :value="color.hex" disabled>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" type="button" @click="showColorPicker = !showColorPicker">Choose color</button>
                                     </div>
-                                <chrome-picker class="color-picker" :value="users[currentUser].color" v-if="showColorPicker" v-model="color" @input="updateColor()"></chrome-picker>
+                                <chrome-picker class="color-picker" :value="users[currentUser].color" v-if="showColorPicker" v-model="color"></chrome-picker>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label font-weight-bold">API Token: </label>
+                                <div class="col-8">
+                                    <button class="btn btn-block btn-outline-secondary" type="button" @click="showAPIModal = !showAPIModal">Show API guide</button>
                                 </div>
                             </div>
                             <!--
@@ -43,7 +55,7 @@
                             -->
                             <div class="form-group row">
                                 <div class="offset-4 col-8">
-                                    <button name="submit" type="submit" class="btn btn-primary" @click.prevent="">Update My Profile</button>
+                                    <button name="submit" type="submit" class="btn btn-primary" @click.prevent="updateUser(currentUser)">Update My Profile</button>
                                 </div>
                             </div>
                         </form>
@@ -69,12 +81,24 @@
                 currentUser: this.$auth.user().id,
                 showColorPicker: false,
                 color: {},
+                showAPIModal: false,
             }
         },
 
+        mounted() {
+            Vue.set(this.color, 'hex', this.$auth.user().color);
+        },
+
         methods: {
-            updateColor() {
-                Vue.set(this.users[this.currentUser], 'color', this.color.hex);
+            updateUser(id) {
+                let app = this;
+                Vue.axios.post(`/users/${id}`, {
+                    color: this.users[id].color,
+                }).then(function(response) {
+                    Vue.set(app.users[id], 'color', app.color.hex);
+                }).catch(function(error) {
+                    console.log(error);
+                });
             }
         },
 
