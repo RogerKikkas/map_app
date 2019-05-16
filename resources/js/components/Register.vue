@@ -1,31 +1,7 @@
 <template>
     <div class="container h-100">
         <!-- MODAL -->
-        <transition @enter="startTransitionModal" @after-enter="endTransitionModal" @before-leave="endTransitionModal" @after-leave="startTransitionModal">
-            <div class="modal fade" v-show="showRegisteredModal" ref="modal" @click.prevent="">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">You have successfully registered</h5>
-                            <button class="close" type="button" @click="showModal = false"><span aria-hidden="true">×</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <h3>Your api token</h3>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" aria-label="API token" :value="token" disabled>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" v-clipboard:copy="token">Copy</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-block btn-primary" type="button" @click.prevent="redirectToLogin()">Go to Login</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </transition>
-        <div class="modal-backdrop fade d-none" ref="backdrop"></div>
+        <api-modal :open="showRegisteredModal" :token="token" v-on:toggleAPIModal="showRegisteredModal = !showRegisteredModal"></api-modal>
 
         <!-- FORM -->
         <div class="row h-100">
@@ -135,20 +111,6 @@
                     redirect: '',
                 })
             },
-
-            startTransitionModal() {
-                this.$refs.backdrop.classList.toggle("d-block");
-                this.$refs.modal.classList.toggle("d-block");
-            },
-            endTransitionModal() {
-                this.$refs.backdrop.classList.toggle("show");
-                this.$refs.modal.classList.toggle("show");
-            },
-
-            redirectToLogin() {
-                this.showRegisteredModal = false;
-                this.$router.push({name: 'login'})
-            }
         }
     }
 </script>

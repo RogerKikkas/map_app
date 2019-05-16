@@ -3017,6 +3017,116 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/APIModal.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/APIModal.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app.js */ "./resources/js/app.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "APIModal",
+  props: {
+    open: Boolean,
+    token: String
+  },
+  data: function data() {
+    return {
+      apiURL: _app_js__WEBPACK_IMPORTED_MODULE_0__["websiteURL"] + '/log',
+      method: 'POST',
+      httpBody: ''
+    };
+  },
+  mounted: function mounted() {
+    this.httpBody = 'lat=%LAT&lng=%LON&speed=%SPD&altitude=%ALT&travelled=%DIST&time=%TIME&token=' + this.token;
+  },
+  methods: {
+    startTransitionModal: function startTransitionModal() {
+      this.$refs.backdrop.classList.toggle("d-block");
+      this.$refs.modal.classList.toggle("d-block");
+    },
+    endTransitionModal: function endTransitionModal() {
+      this.$refs.backdrop.classList.toggle("show");
+      this.$refs.modal.classList.toggle("show");
+    },
+    redirectToLogin: function redirectToLogin() {
+      this.$emit('toggleAPIModal');
+      this.$router.push({
+        name: 'login'
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Admin.vue?vue&type=script&lang=js& ***!
@@ -3425,30 +3535,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3504,20 +3590,6 @@ __webpack_require__.r(__webpack_exports__);
           app.errors = res.response.data.errors || {};
         },
         redirect: ''
-      });
-    },
-    startTransitionModal: function startTransitionModal() {
-      this.$refs.backdrop.classList.toggle("d-block");
-      this.$refs.modal.classList.toggle("d-block");
-    },
-    endTransitionModal: function endTransitionModal() {
-      this.$refs.backdrop.classList.toggle("show");
-      this.$refs.modal.classList.toggle("show");
-    },
-    redirectToLogin: function redirectToLogin() {
-      this.showRegisteredModal = false;
-      this.$router.push({
-        name: 'login'
       });
     }
   }
@@ -72707,6 +72779,283 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/APIModal.vue?vue&type=template&id=2daed89e&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/APIModal.vue?vue&type=template&id=2daed89e&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "transition",
+        {
+          on: {
+            enter: _vm.startTransitionModal,
+            "after-enter": _vm.endTransitionModal,
+            "before-leave": _vm.endTransitionModal,
+            "after-leave": _vm.startTransitionModal
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.open,
+                  expression: "open"
+                }
+              ],
+              ref: "modal",
+              staticClass: "modal fade",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-dialog", attrs: { role: "document" } },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c("div", { staticClass: "modal-header" }, [
+                      _c(
+                        "h5",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLabel" }
+                        },
+                        [_vm._v("You have successfully registered")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "close",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.showModal = false
+                            }
+                          }
+                        },
+                        [
+                          _c("span", { attrs: { "aria-hidden": "true" } }, [
+                            _vm._v("×")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("h3", [_vm._v("Setting up the GPS app")]),
+                      _vm._v(" "),
+                      _c("ul", [
+                        _c("li", [
+                          _c("h5", [_vm._v("Set API url to")]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group mb-3" }, [
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                "aria-label": "API Url",
+                                disabled: ""
+                              },
+                              domProps: { value: _vm.apiURL }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group-append" }, [
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "clipboard",
+                                      rawName: "v-clipboard:copy",
+                                      value: _vm.apiURL,
+                                      expression: "apiURL",
+                                      arg: "copy"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-outline-secondary",
+                                  attrs: { type: "button" }
+                                },
+                                [_vm._v("Copy")]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c("h5", [_vm._v("Set HTTP Method to")]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group mb-3" }, [
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                "aria-label": "HTTP Method",
+                                disabled: ""
+                              },
+                              domProps: { value: _vm.method }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group-append" }, [
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "clipboard",
+                                      rawName: "v-clipboard:copy",
+                                      value: _vm.method,
+                                      expression: "method",
+                                      arg: "copy"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-outline-secondary",
+                                  attrs: { type: "button" }
+                                },
+                                [_vm._v("Copy")]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c("h5", [_vm._v("Set HTTP Body to")]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group mb-3" }, [
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                "aria-label": "HTTP Body",
+                                disabled: ""
+                              },
+                              domProps: { value: _vm.httpBody }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "input-group-append" }, [
+                              _c(
+                                "button",
+                                {
+                                  directives: [
+                                    {
+                                      name: "clipboard",
+                                      rawName: "v-clipboard:copy",
+                                      value: _vm.httpBody,
+                                      expression: "httpBody",
+                                      arg: "copy"
+                                    }
+                                  ],
+                                  staticClass: "btn btn-outline-secondary",
+                                  attrs: { type: "button" }
+                                },
+                                [_vm._v("Copy")]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c("h5", [
+                            _vm._v(
+                              "This setup uses GPS Logger app for android, HTTP body might be different for different apps."
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("h3", [
+                        _vm._v("Your api token (included in HTTP body)")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "input-group mb-3" }, [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            "aria-label": "API token",
+                            disabled: ""
+                          },
+                          domProps: { value: _vm.token }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group-append" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "clipboard",
+                                  rawName: "v-clipboard:copy",
+                                  value: _vm.token,
+                                  expression: "token",
+                                  arg: "copy"
+                                }
+                              ],
+                              staticClass: "btn btn-outline-secondary",
+                              attrs: { type: "button" }
+                            },
+                            [_vm._v("Copy")]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-block btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.redirectToLogin()
+                            }
+                          }
+                        },
+                        [_vm._v("Go to Login")]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { ref: "backdrop", staticClass: "modal-backdrop fade d-none" })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Admin.vue?vue&type=template&id=58b78718&":
 /*!********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Admin.vue?vue&type=template&id=58b78718& ***!
@@ -73197,132 +73546,14 @@ var render = function() {
     "div",
     { staticClass: "container h-100" },
     [
-      _c(
-        "transition",
-        {
-          on: {
-            enter: _vm.startTransitionModal,
-            "after-enter": _vm.endTransitionModal,
-            "before-leave": _vm.endTransitionModal,
-            "after-leave": _vm.startTransitionModal
+      _c("api-modal", {
+        attrs: { open: _vm.showRegisteredModal, token: _vm.token },
+        on: {
+          toggleAPIModal: function($event) {
+            _vm.showRegisteredModal = !_vm.showRegisteredModal
           }
-        },
-        [
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.showRegisteredModal,
-                  expression: "showRegisteredModal"
-                }
-              ],
-              ref: "modal",
-              staticClass: "modal fade",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                }
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "modal-dialog", attrs: { role: "document" } },
-                [
-                  _c("div", { staticClass: "modal-content" }, [
-                    _c("div", { staticClass: "modal-header" }, [
-                      _c(
-                        "h5",
-                        {
-                          staticClass: "modal-title",
-                          attrs: { id: "exampleModalLabel" }
-                        },
-                        [_vm._v("You have successfully registered")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "close",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              _vm.showModal = false
-                            }
-                          }
-                        },
-                        [
-                          _c("span", { attrs: { "aria-hidden": "true" } }, [
-                            _vm._v("×")
-                          ])
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-body" }, [
-                      _c("h3", [_vm._v("Your api token")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "input-group mb-3" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            "aria-label": "API token",
-                            disabled: ""
-                          },
-                          domProps: { value: _vm.token }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "input-group-append" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "clipboard",
-                                  rawName: "v-clipboard:copy",
-                                  value: _vm.token,
-                                  expression: "token",
-                                  arg: "copy"
-                                }
-                              ],
-                              staticClass: "btn btn-outline-secondary",
-                              attrs: { type: "button" }
-                            },
-                            [_vm._v("Copy")]
-                          )
-                        ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-block btn-primary",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.redirectToLogin()
-                            }
-                          }
-                        },
-                        [_vm._v("Go to Login")]
-                      )
-                    ])
-                  ])
-                ]
-              )
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { ref: "backdrop", staticClass: "modal-backdrop fade d-none" }),
+        }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "row h-100" }, [
         _c("div", { staticClass: "col-sm-4 offset-sm-4 my-auto" }, [
@@ -100291,11 +100522,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no exports provided */
+/*! exports provided: websiteURL */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "websiteURL", function() { return websiteURL; });
 /* harmony import */ var es6_promise_auto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! es6-promise/auto */ "./node_modules/es6-promise/auto.js");
 /* harmony import */ var es6_promise_auto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(es6_promise_auto__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -100337,7 +100569,9 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
- // Set Vue
+ // This shows up on API token modal to show the user the API endpoint
+
+var websiteURL = 'https://loc.kvlt.ee'; // Set Vue
 
 window.Vue = vue__WEBPACK_IMPORTED_MODULE_4___default.a; // Vue Router
 
@@ -100372,6 +100606,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('navbar', __webpack_require
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('user-profile', __webpack_require__(/*! ./components/UserProfile.vue */ "./resources/js/components/UserProfile.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('admin', __webpack_require__(/*! ./components/Admin.vue */ "./resources/js/components/Admin.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('chrome-picker', vue_color__WEBPACK_IMPORTED_MODULE_9__["Chrome"]);
+vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('api-modal', __webpack_require__(/*! ./components/APIModal.vue */ "./resources/js/components/APIModal.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -100507,6 +100742,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/APIModal.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/APIModal.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _APIModal_vue_vue_type_template_id_2daed89e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./APIModal.vue?vue&type=template&id=2daed89e&scoped=true& */ "./resources/js/components/APIModal.vue?vue&type=template&id=2daed89e&scoped=true&");
+/* harmony import */ var _APIModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./APIModal.vue?vue&type=script&lang=js& */ "./resources/js/components/APIModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _APIModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _APIModal_vue_vue_type_template_id_2daed89e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _APIModal_vue_vue_type_template_id_2daed89e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "2daed89e",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/APIModal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/APIModal.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/APIModal.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_APIModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./APIModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/APIModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_APIModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/APIModal.vue?vue&type=template&id=2daed89e&scoped=true&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/APIModal.vue?vue&type=template&id=2daed89e&scoped=true& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_APIModal_vue_vue_type_template_id_2daed89e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./APIModal.vue?vue&type=template&id=2daed89e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/APIModal.vue?vue&type=template&id=2daed89e&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_APIModal_vue_vue_type_template_id_2daed89e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_APIModal_vue_vue_type_template_id_2daed89e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

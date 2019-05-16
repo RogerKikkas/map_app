@@ -20,6 +20,9 @@ import { LMap, LTileLayer, LMarker, LPolyline, LPopup, LCircleMarker, LTooltip }
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+// This shows up on API token modal to show the user the API endpoint
+export const websiteURL = 'https://loc.kvlt.ee';
+
 // Set Vue
 window.Vue = Vue;
 
@@ -58,6 +61,7 @@ Vue.component('navbar', require('./components/Navbar.vue').default);
 Vue.component('user-profile', require('./components/UserProfile.vue').default);
 Vue.component('admin', require('./components/Admin.vue').default);
 Vue.component('chrome-picker', Chrome);
+Vue.component('api-modal', require('./components/APIModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
