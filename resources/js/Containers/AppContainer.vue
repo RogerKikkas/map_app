@@ -27,11 +27,26 @@
         methods: {
             getAllUsers(){
                 let app = this;
-                Vue.axios.get('/usersForMap').then(response => response.data.map(function(value) {
-                    value.showCoordinates = false;
-                    value.coordinates = [];
-                    Vue.set(app.users, value.id, value);
-                }));
+                // If logged in user is admin then gets all the information on users, regular users get less information
+                if (this.$auth.user().role == 2) {
+                    Vue.axios.get('/auth/users/')
+                        .then(function(response) {
+                            response.data.users.map(function(value) {
+                                value.showCoordinates = false;
+                                value.coordinates = [];
+                                Vue.set(app.users, value.id, value);
+                            })
+                        })
+                        .catch(function(error) {
+                            //
+                        });
+                } else {
+                    Vue.axios.get('/usersForMap').then(response => response.data.map(function(value) {
+                        value.showCoordinates = false;
+                        value.coordinates = [];
+                        Vue.set(app.users, value.id, value);
+                    }));
+                }
             },
 
             getStartDatesAndInitialUserData(id) {

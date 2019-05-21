@@ -61,6 +61,7 @@ Vue.component('user-map', require('./components/UserMap.vue').default);
 Vue.component('app', require('./components/App.vue').default);
 Vue.component('navbar', require('./components/Navbar.vue').default);
 Vue.component('user-profile', require('./components/UserProfile.vue').default);
+Vue.component('user-list', require('./components/UserList.vue').default);
 Vue.component('admin', require('./components/Admin.vue').default);
 Vue.component('chrome-picker', Chrome);
 Vue.component('api-modal', require('./components/APIModal.vue').default);

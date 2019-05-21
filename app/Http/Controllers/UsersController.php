@@ -135,7 +135,21 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => 'User with id ' . $id . ' does not exist'
+            ], 404);
+        }
+
+        $user->delete();
+
+        return response()->json(
+            [
+                'status' => 'success',
+            ], 200);
     }
 
     public function usersForMap() {

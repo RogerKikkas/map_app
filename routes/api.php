@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('userCoordinates/{id}', 'CoordinatesControlle
 Route::middleware('auth:api')->get('/usersForMap', 'UsersController@usersForMap');
 Route::middleware('auth:api')->get('/userStartDates/{id}', 'CoordinatesController@userStartDates');
 Route::middleware('auth:api')->post('/users/{id}', 'UsersController@update');
+Route::middleware('auth:api')->delete('/users/{id}', 'UsersController@destroy');
 
 // Route for storing new coordinates to DB
 Route::post('log', 'CoordinatesController@store');

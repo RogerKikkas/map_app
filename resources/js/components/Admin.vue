@@ -1,28 +1,24 @@
 <template>
-    <div class="container">
+    <div class="col-md-6 offset-md-3" style="margin-top:20px">
         <div class="card card-default">
-            <div class="card-header">Admin Dashboard</div>
             <div class="card-body">
-                {{ $auth.user().name }}
-            </div>
-        </div>
-        <div class="card card-default">
-            <div class="card-header">List of users</div>
-            <div class="card-body">
-                <userList></userList>
+                <user-list :users="users"></user-list>
             </div>
         </div>
     </div>
 </template>
 <script>
-    import userList from './user-list.vue'
-
     export default {
-        mounted() {
-            //
+        props: {
+            users: {
+                type: Object/Array,
+            },
         },
-        components: {
-            userList
-        }
+
+        data() {
+            return {
+                //
+            }
+        },
     }
 </script>
