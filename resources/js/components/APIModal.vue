@@ -60,7 +60,7 @@
             </div>
         </transition>
 
-        <div class="modal-backdrop fade d-none" ref="backdrop" @click.prevent="test()"></div>
+        <div class="modal-backdrop fade d-none" ref="backdrop"></div>
     </div>
 </template>
 

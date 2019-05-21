@@ -64,6 +64,7 @@ Vue.component('user-profile', require('./components/UserProfile.vue').default);
 Vue.component('admin', require('./components/Admin.vue').default);
 Vue.component('chrome-picker', Chrome);
 Vue.component('api-modal', require('./components/APIModal.vue').default);
+Vue.component('change-password-modal', require('./components/ChangePasswordModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

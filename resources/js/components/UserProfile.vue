@@ -5,6 +5,9 @@
                    v-on:toggleAPIModal="showAPIModal = !showAPIModal"
                    :registered="false">
         </api-modal>
+        <change-password-modal :open="showChangePasswordModal"
+                   v-on:toggleChangePasswordModal="showChangePasswordModal = !showChangePasswordModal">
+        </change-password-modal>
 
         <flash-message class="myCustomClass"></flash-message>
 
@@ -47,6 +50,12 @@
                                     <button class="btn btn-block btn-outline-secondary" type="button" @click="showAPIModal = !showAPIModal">Show API guide</button>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-form-label font-weight-bold">Change password: </label>
+                                <div class="col-8">
+                                    <button class="btn btn-block btn-outline-secondary" type="button" @click="showChangePasswordModal = !showChangePasswordModal">Change password</button>
+                                </div>
+                            </div>
                             <!--
                             <div class="form-group row">
                                 <label for="newpass" class="col-4 col-form-label">New Password</label>
@@ -86,6 +95,7 @@
                 showColorPicker: false,
                 color: {},
                 showAPIModal: false,
+                showChangePasswordModal: false,
             }
         },
 
@@ -97,13 +107,16 @@
             updateUser(id) {
                 let app = this;
                 Vue.axios.post(`/users/${id}`, {
-                    color: this.users[id].color,
+                    color: this.color.hex
                 }).then(function(response) {
                     Vue.set(app.users[id], 'color', app.color.hex);
                     app.flash('User updated', 'success', {
                         timeout: 3000,
                     });
                     app.showColorPicker = false;
+                    // Small hack to show the correct color if user navigates to another component and comes back
+                    // without refreshing
+                    app.$auth.user().color = app.users[app.currentUser].color;
                 }).catch(function(error) {
                     app.flash('User update failed', 'error', {
                         timeout: 3000,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -83,7 +84,39 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $user = Auth::user();
-        $user->color = $request['color'];
+        $user->color = $request['color'] ?: $user->color;
+
+        if ($request{'current_password'}) {
+            $hasher = app('hash');
+
+            if (!$hasher->check($request['current_password'], $user->getAuthPassword())) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => 'Current password doesn\'t match'
+                ], 422);
+            }
+
+            if ($request['current_password'] === $request['new_password']) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => 'Current and new password cannot be the same'
+                ], 422);
+            };
+
+            $v = Validator::make($request->all(), [
+                'new_password' => 'required|min:3|confirmed'
+            ]);
+
+            if ($v->fails())
+            {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $v->errors()->all()[0]
+                ], 422);
+            }
+
+            $user->password = bcrypt($request['new_password']);
+        }
 
         $user->save();
 
