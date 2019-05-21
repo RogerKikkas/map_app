@@ -3195,6 +3195,113 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordModal.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChangePasswordModal.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ChangePasswordModal",
+  props: {
+    open: Boolean
+  },
+  data: function data() {
+    return {
+      current_password: '',
+      new_password: '',
+      new_password_confirmation: '',
+      error: ''
+    };
+  },
+  methods: {
+    startTransitionModal: function startTransitionModal() {
+      this.$refs.backdrop.classList.toggle("d-block");
+      this.$refs.modal.classList.toggle("d-block");
+    },
+    endTransitionModal: function endTransitionModal() {
+      this.$refs.backdrop.classList.toggle("show");
+      this.$refs.modal.classList.toggle("show");
+    },
+    updatePassword: function updatePassword(id) {
+      var app = this;
+      if (!this.current_password) return;
+      Vue.axios.post("/users/".concat(id), {
+        current_password: this.current_password,
+        new_password: this.new_password,
+        new_password_confirmation: this.new_password_confirmation
+      }).then(function (response) {
+        app.flash('Password changed', 'success', {
+          timeout: 3000
+        });
+        app.current_password = '';
+        app.new_password = '';
+        app.new_password_confirmation = '';
+        app.error = '';
+        app.$emit('toggleChangePasswordModal');
+      })["catch"](function (error) {
+        app.error = error.response.data["errors"];
+      });
+    },
+    handleClose: function handleClose() {
+      this.$emit('toggleChangePasswordModal');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Login.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Login.vue?vue&type=script&lang=js& ***!
@@ -3747,6 +3854,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 __webpack_require__(/*! vue-flash-message/dist/vue-flash-message.min.css */ "./node_modules/vue-flash-message/dist/vue-flash-message.min.css");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3762,7 +3878,8 @@ __webpack_require__(/*! vue-flash-message/dist/vue-flash-message.min.css */ "./n
       currentUser: this.$auth.user().id,
       showColorPicker: false,
       color: {},
-      showAPIModal: false
+      showAPIModal: false,
+      showChangePasswordModal: false
     };
   },
   mounted: function mounted() {
@@ -3772,13 +3889,16 @@ __webpack_require__(/*! vue-flash-message/dist/vue-flash-message.min.css */ "./n
     updateUser: function updateUser(id) {
       var app = this;
       Vue.axios.post("/users/".concat(id), {
-        color: this.users[id].color
+        color: this.color.hex
       }).then(function (response) {
         Vue.set(app.users[id], 'color', app.color.hex);
         app.flash('User updated', 'success', {
           timeout: 3000
         });
-        app.showColorPicker = false;
+        app.showColorPicker = false; // Small hack to show the correct color if user navigates to another component and comes back
+        // without refreshing
+
+        app.$auth.user().color = app.users[app.currentUser].color;
       })["catch"](function (error) {
         app.flash('User update failed', 'error', {
           timeout: 3000
@@ -73176,16 +73296,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", {
-        ref: "backdrop",
-        staticClass: "modal-backdrop fade d-none",
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.test()
-          }
-        }
-      })
+      _c("div", { ref: "backdrop", staticClass: "modal-backdrop fade d-none" })
     ],
     1
   )
@@ -73251,6 +73362,283 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("router-view")
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "transition",
+        {
+          on: {
+            enter: _vm.startTransitionModal,
+            "after-enter": _vm.endTransitionModal,
+            "before-leave": _vm.endTransitionModal,
+            "after-leave": _vm.startTransitionModal
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.open,
+                  expression: "open"
+                }
+              ],
+              ref: "modal",
+              staticClass: "modal fade"
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-dialog", attrs: { role: "document" } },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c("div", { staticClass: "modal-header" }, [
+                      _c("h5", { staticClass: "modal-title" }, [
+                        _vm._v("Change password")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "close",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.handleClose()
+                            }
+                          }
+                        },
+                        [
+                          _c("span", { attrs: { "aria-hidden": "true" } }, [
+                            _vm._v("×")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _vm.error
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "alert alert-danger",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.error) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "form",
+                        {
+                          attrs: { autocomplete: "off", method: "post" },
+                          on: {
+                            submit: function($event) {
+                              $event.preventDefault()
+                              _vm.updatePassword(_vm.$auth.user().id)
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass:
+                                  "col-4 col-form-label font-weight-bold"
+                              },
+                              [_vm._v("Current password: ")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-8" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.current_password,
+                                    expression: "current_password"
+                                  }
+                                ],
+                                staticClass: "form-control here",
+                                attrs: {
+                                  id: "currentPass",
+                                  name: "currentPass",
+                                  placeholder: "Current password",
+                                  type: "password",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.current_password },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.current_password = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass:
+                                  "col-4 col-form-label font-weight-bold"
+                              },
+                              [_vm._v("New password: ")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-8" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.new_password,
+                                    expression: "new_password"
+                                  }
+                                ],
+                                staticClass: "form-control here",
+                                attrs: {
+                                  id: "newPass",
+                                  name: "newPass",
+                                  placeholder: "New password",
+                                  type: "password",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.new_password },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.new_password = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass:
+                                  "col-4 col-form-label font-weight-bold"
+                              },
+                              [_vm._v("New password confirmation: ")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-8" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.new_password_confirmation,
+                                    expression: "new_password_confirmation"
+                                  }
+                                ],
+                                staticClass: "form-control here",
+                                attrs: {
+                                  id: "newPassConfirm",
+                                  name: "newPassConfirm",
+                                  placeholder: "New password confirmation",
+                                  type: "password",
+                                  required: ""
+                                },
+                                domProps: {
+                                  value: _vm.new_password_confirmation
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.new_password_confirmation =
+                                      $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-block btn-primary",
+                              attrs: { type: "submit" }
+                            },
+                            [_vm._v("Update password")]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-block btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.handleClose()
+                            }
+                          }
+                        },
+                        [_vm._v("Close modal")]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { ref: "backdrop", staticClass: "modal-backdrop fade d-none" })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -74162,6 +74550,15 @@ var render = function() {
         }
       }),
       _vm._v(" "),
+      _c("change-password-modal", {
+        attrs: { open: _vm.showChangePasswordModal },
+        on: {
+          toggleChangePasswordModal: function($event) {
+            _vm.showChangePasswordModal = !_vm.showChangePasswordModal
+          }
+        }
+      }),
+      _vm._v(" "),
       _c("flash-message", { staticClass: "myCustomClass" }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
@@ -74281,6 +74678,32 @@ var render = function() {
                             }
                           },
                           [_vm._v("Show API guide")]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-4 col-form-label font-weight-bold"
+                        },
+                        [_vm._v("Change password: ")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-8" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-block btn-outline-secondary",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.showChangePasswordModal = !_vm.showChangePasswordModal
+                              }
+                            }
+                          },
+                          [_vm._v("Change password")]
                         )
                       ])
                     ]),
@@ -100837,6 +101260,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('user-profile', __webpack_r
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('admin', __webpack_require__(/*! ./components/Admin.vue */ "./resources/js/components/Admin.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('chrome-picker', vue_color__WEBPACK_IMPORTED_MODULE_9__["Chrome"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('api-modal', __webpack_require__(/*! ./components/APIModal.vue */ "./resources/js/components/APIModal.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4___default.a.component('change-password-modal', __webpack_require__(/*! ./components/ChangePasswordModal.vue */ "./resources/js/components/ChangePasswordModal.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -101177,6 +101601,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_332fccf4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_332fccf4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ChangePasswordModal.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/ChangePasswordModal.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ChangePasswordModal_vue_vue_type_template_id_9b614032_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true& */ "./resources/js/components/ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true&");
+/* harmony import */ var _ChangePasswordModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChangePasswordModal.vue?vue&type=script&lang=js& */ "./resources/js/components/ChangePasswordModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ChangePasswordModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ChangePasswordModal_vue_vue_type_template_id_9b614032_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChangePasswordModal_vue_vue_type_template_id_9b614032_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "9b614032",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ChangePasswordModal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ChangePasswordModal.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/ChangePasswordModal.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ChangePasswordModal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordModal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordModal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordModal_vue_vue_type_template_id_9b614032_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChangePasswordModal.vue?vue&type=template&id=9b614032&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordModal_vue_vue_type_template_id_9b614032_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePasswordModal_vue_vue_type_template_id_9b614032_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

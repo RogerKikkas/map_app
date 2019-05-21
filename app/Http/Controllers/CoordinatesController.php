@@ -49,9 +49,9 @@ class CoordinatesController extends Controller
         ]);
 
         $attributes["user_id"] = $user["id"];
-        $attributes["speed"] = $request["spd"];
-        $attributes["altitude"] = $request["alt"];
-        $attributes["travelled"] = $request["dist"];
+        $attributes["speed"] = $request["spd"] ?: '0';
+        $attributes["altitude"] = $request["alt"] ?: '0';
+        $attributes["travelled"] = $request["dist"] ?: '0';
 
         if ($request['time']) {
             $attributes["created_at"] = date('Y-m-d H:i:s', strtotime($request['time']));
