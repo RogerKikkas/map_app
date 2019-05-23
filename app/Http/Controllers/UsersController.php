@@ -86,36 +86,43 @@ class UsersController extends Controller
         $user = Auth::user();
         $user->color = $request['color'] ?: $user->color;
 
-        if ($request{'current_password'}) {
+        $app = app();
+        $errors = $app->make('stdClass');
+
+        if ($request{'currentPassword'}) {
             $hasher = app('hash');
 
-            if (!$hasher->check($request['current_password'], $user->getAuthPassword())) {
+            if (!$hasher->check($request['currentPassword'], $user->getAuthPassword())) {
+                $errors->currentPassword = ['Current password doesn\'t match'];
+
                 return response()->json([
                     'status' => 'error',
-                    'errors' => 'Current password doesn\'t match'
+                    'errors' => $errors
                 ], 422);
             }
 
-            if ($request['current_password'] === $request['new_password']) {
+            if ($request['currentPassword'] === $request['newPassword']) {
+                $errors->newPassword = ['Current and new password cannot be the same'];
+
                 return response()->json([
                     'status' => 'error',
-                    'errors' => 'Current and new password cannot be the same'
+                    'errors' => $errors
                 ], 422);
             };
 
             $v = Validator::make($request->all(), [
-                'new_password' => 'required|min:3|confirmed'
+                'newPassword' => 'required|min:3|confirmed'
             ]);
 
             if ($v->fails())
             {
                 return response()->json([
                     'status' => 'error',
-                    'errors' => $v->errors()->all()[0]
+                    'errors' => $v->errors()
                 ], 422);
             }
 
-            $user->password = bcrypt($request['new_password']);
+            $user->password = bcrypt($request['newPassword']);
         }
 
         $user->save();

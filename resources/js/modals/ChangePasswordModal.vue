@@ -5,30 +5,31 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Change password</h5>
+                            <h5 class="modal-title" v-if="!admin">Change password</h5>
+                            <h5 class="modal-title" v-if="admin">Change password for user: {{ selectedUserName }}</h5>
                             <button class="close" type="button" @click="handleClose()"><span aria-hidden="true">×</span></button>
                         </div>
                         <div class="modal-body">
-                            <div class="alert alert-danger" role="alert" v-if="error">
-                                {{ error }}
+                            <div class="alert alert-danger" role="alert" v-if="errors" v-for="error in errors">
+                                {{ error[0] }}
                             </div>
                             <form autocomplete="off" @submit.prevent="updatePassword($auth.user().id)" method="post">
-                                <div class="form-group row">
+                                <div class="form-group row" v-if="!admin">
                                     <label class="col-4 col-form-label font-weight-bold">Current password: </label>
                                     <div class="col-8">
-                                        <input v-model="current_password" id="currentPass" name="currentPass" placeholder="Current password" class="form-control here" type="password" required>
+                                        <input v-model="currentPassword" id="currentPass" name="currentPass" placeholder="Current password" class="form-control here" type="password" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-4 col-form-label font-weight-bold">New password: </label>
                                     <div class="col-8">
-                                        <input v-model="new_password" id="newPass" name="newPass" placeholder="New password" class="form-control here" type="password" required>
+                                        <input v-model="newPassword" id="newPass" name="newPass" placeholder="New password" class="form-control here" type="password" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-4 col-form-label font-weight-bold">New password confirmation: </label>
                                     <div class="col-8">
-                                        <input v-model="new_password_confirmation" id="newPassConfirm" name="newPassConfirm" placeholder="New password confirmation" class="form-control here" type="password" required>
+                                        <input v-model="newPasswordConfirmation" id="newPassConfirm" name="newPassConfirm" placeholder="New password confirmation" class="form-control here" type="password" required>
                                     </div>
                                 </div>
                                 <button class="btn btn-block btn-primary" type="submit">Update password</button>
@@ -52,14 +53,26 @@
 
         props: {
             open: Boolean,
+            admin: {
+                type: Boolean,
+                default: false
+            },
+            selectedUserId: {
+                type: Number,
+                default: 0
+            },
+            selectedUserName: {
+                type: String,
+                default: ''
+            },
         },
 
         data() {
             return {
-                current_password: '',
-                new_password: '',
-                new_password_confirmation: '',
-                error: '',
+                currentPassword: '',
+                newPassword: '',
+                newPasswordConfirmation: '',
+                errors: '',
             }
         },
 
@@ -76,24 +89,43 @@
             updatePassword(id) {
                 let app = this;
 
-                if (!this.current_password) return;
-
-                Vue.axios.post(`/users/${id}`, {
-                    current_password: this.current_password,
-                    new_password: this.new_password,
-                    new_password_confirmation: this.new_password_confirmation,
-                }).then(function(response) {
-                    app.flash('Password changed', 'success', {
-                        timeout: 3000,
+                // If admin then calls a different function
+                if (this.admin) {
+                    Vue.axios.post('/admin/changeUserPassword', {
+                        userId: this.selectedUserId,
+                        newPassword: this.newPassword,
+                        newPassword_confirmation: this.newPasswordConfirmation
+                    }).then(function(response) {
+                        app.flash('Users password changed', 'success', {
+                            timeout: 3000,
+                        });
+                        app.newPassword = '';
+                        app.newPasswordConfirmation = '';
+                        app.errors = '';
+                        app.$emit('toggleChangePasswordModal');
+                    }).catch(function(error) {
+                        app.errors = error.response.data["errors"];
                     });
-                    app.current_password = '';
-                    app.new_password = '';
-                    app.new_password_confirmation = '';
-                    app.error = '';
-                    app.$emit('toggleChangePasswordModal');
-                }).catch(function(error) {
-                    app.error = error.response.data["errors"];
-                });
+                } else {
+                    if (!this.currentPassword) return;
+
+                    Vue.axios.post(`/users/${id}`, {
+                        currentPassword: this.currentPassword,
+                        newPassword: this.newPassword,
+                        newPassword_confirmation: this.newPasswordConfirmation,
+                    }).then(function(response) {
+                        app.flash('Password changed', 'success', {
+                            timeout: 3000,
+                        });
+                        app.currentPassword = '';
+                        app.newPassword = '';
+                        app.newPasswordConfirmation = '';
+                        app.errors = '';
+                        app.$emit('toggleChangePasswordModal');
+                    }).catch(function(error) {
+                        app.errors = error.response.data["errors"];
+                    });
+                }
             },
 
             handleClose() {

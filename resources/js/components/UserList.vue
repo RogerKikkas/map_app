@@ -1,5 +1,12 @@
 <template>
     <div>
+        <change-password-modal :open="showChangePasswordModal"
+                               :admin=true
+                               :selectedUserId="selectedUserId"
+                               :selectedUserName="selectedUserName"
+                               v-on:toggleChangePasswordModal="showChangePasswordModal = !showChangePasswordModal">
+        </change-password-modal>
+
         <div class="alert alert-danger" v-if="error">
             {{ error }}
         </div>
@@ -11,6 +18,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Role</th>
                 <th scope="col">Date of registration</th>
+                <th scope="col">Change password</th>
                 <th scope="col">Delete</th>
             </tr>
             <tr v-for="user in users" v-bind:key="user.id" style="margin-bottom: 5px;">
@@ -19,6 +27,7 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.role === 2 ? 'admin' : 'user' }}</td>
                 <td>{{ user.created_at}}</td>
+                <td><button class="btn btn-success" @click.prevent="changeUserPassword(user.id, user.name)">🔑</button></td>
                 <td><button class="btn btn-danger" @click.prevent="deleteUser(user.id)">X</button></td>
             </tr>
         </table>
@@ -35,6 +44,9 @@
 
         data() {
             return {
+                showChangePasswordModal: false,
+                selectedUserId: 0,
+                selectedUserName: '',
                 error: ''
             }
         },
@@ -52,6 +64,12 @@
                             app.error = error.response.data.errors;
                         })
                 }
+            },
+
+            changeUserPassword(id, name) {
+                this.selectedUserId = id;
+                this.selectedUserName = name;
+                this.showChangePasswordModal = true;
             }
         }
     }

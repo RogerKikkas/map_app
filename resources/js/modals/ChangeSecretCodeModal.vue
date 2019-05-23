@@ -16,7 +16,7 @@
                                 <div class="form-group row">
                                     <label class="col-4 col-form-label font-weight-bold">Secret Code: </label>
                                     <div class="col-8">
-                                        <input v-model="secret_code" id="secretCode" name="secretCode" placeholder="Secret Code" class="form-control here" type="text" required>
+                                        <input v-model="secretCode" id="secretCode" name="secretCode" placeholder="Secret Code" class="form-control here" type="text" required>
                                     </div>
                                 </div>
                                 <button class="btn btn-block btn-primary" type="submit">Update secret code</button>
@@ -44,7 +44,7 @@
 
         data() {
             return {
-                secret_code: '',
+                secretCode: '',
                 errors: '',
             }
         },
@@ -62,13 +62,13 @@
             updateSecretCode() {
                 let app = this;
 
-                Vue.axios.post('/auth/changeSecretCode', {
-                    secret_code: this.secret_code,
+                Vue.axios.post('/admin/changeSecretCode', {
+                    secretCode: this.secretCode,
                 }).then(function(response) {
                     app.flash('Secret code changed', 'success', {
                         timeout: 3000,
                     });
-                    app.secret_code = '';
+                    app.secretCode = '';
                     app.errors = '';
                     app.$emit('toggleChangeSecretCodeModal');
                 }).catch(function(error) {

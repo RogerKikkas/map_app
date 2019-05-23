@@ -36,7 +36,13 @@ Route::prefix('auth')->group(function () {
         Route::get('user', 'AuthController@user');
         Route::get('users', 'UsersController@index')->middleware('isAdmin');
         Route::get('users/{id}', 'UsersController@show')->middleware('isAdminOrSelf');
-        Route::post('changeSecretCode', 'AdminController@changeSecretCode')->middleware('isAdmin');
         Route::post('logout', 'AuthController@logout');
+    });
+});
+
+Route::prefix('admin')->group(function () {
+    Route::group(['middleware' => 'isAdmin'], function() {
+        Route::post('changeSecretCode', 'AdminController@changeSecretCode');
+        Route::post('changeUserPassword', 'AdminController@changeUserPassword');
     });
 });
