@@ -6,7 +6,7 @@ import Login from './components/Login'
 import UserProfile from './components/UserProfile'
 import Admin from './components/Admin'
 import Map from './components/Map'
-import AppContainer from './Containers/AppContainer'
+import AppContainer from './containers/AppContainer'
 
 // Routes
 const routes = [
