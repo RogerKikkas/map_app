@@ -71,6 +71,16 @@ body {
   font-size: 1rem;
 }
 
+.table th {
+  // Same as border-top for .table th
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table td {
+  // Same as border-top for .table td
+  border-bottom: 1px solid #dee2e6;
+}
+
 // PLACEHOLDERS
 
 .form-control::-webkit-input-placeholder{

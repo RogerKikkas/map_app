@@ -9,15 +9,16 @@
         <div class="card card-default">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-6 offset-md-3">
-                            <button class="btn btn-block btn-outline-secondary" @click="showChangeSecretCodeModal = !showChangeSecretCodeModal">Change secret code</button>
-                        </div>
+                    <div class="col-md-12 text-center">
+                        <user-list :users="users"></user-list>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <user-list :users="users"></user-list>
+                        <h3>Secret code</h3>
+                        <div class="col-md-6 offset-md-3">
+                            <button class="btn btn-block btn-outline-secondary" @click="showChangeSecretCodeModal = !showChangeSecretCodeModal">Change secret code</button>
+                        </div>
                     </div>
                 </div>
             </div>
