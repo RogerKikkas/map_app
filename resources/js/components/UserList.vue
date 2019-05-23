@@ -11,26 +11,32 @@
             {{ error }}
         </div>
         <h3>List of users</h3>
-        <table class="table">
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col">Date of registration</th>
-                <th scope="col">Change password</th>
-                <th scope="col">Delete</th>
-            </tr>
-            <tr v-for="user in users" v-bind:key="user.id" style="margin-bottom: 5px;">
-                <th scope="row">{{ user.id }}</th>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.role === 2 ? 'admin' : 'user' }}</td>
-                <td>{{ user.created_at}}</td>
-                <td><button class="btn btn-success" @click.prevent="changeUserPassword(user.id, user.name)">🔑</button></td>
-                <td><button class="btn btn-danger" @click.prevent="deleteUser(user.id)">X</button></td>
-            </tr>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Date of registration</th>
+                    <th scope="col">Change password</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="user in users" v-bind:key="user.id" style="margin-bottom: 5px;">
+                    <th scope="row">{{ user.id }}</th>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role === 2 ? 'admin' : 'user' }}</td>
+                    <td>{{ user.created_at}}</td>
+                    <td><button class="btn btn-success" @click.prevent="changeUserPassword(user.id, user.name)">🔑</button></td>
+                    <td><button class="btn btn-danger" @click.prevent="deleteUser(user.id)">X</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 

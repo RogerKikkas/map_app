@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition @enter="startTransitionModal" @after-enter="endTransitionModal" @before-leave="endTransitionModal" @after-leave="startTransitionModal">
-            <div class="modal fade" v-show="open" ref="modal">
+            <div class="modal fade" v-show="open" ref="modal" @click.self="handleClose()">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
