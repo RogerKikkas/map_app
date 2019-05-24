@@ -1,6 +1,6 @@
 <template>
     <div>
-        <l-circle-marker v-for="coordinate in coordinates" :lat-lng="[coordinate.lat, coordinate.lon]" :key="coordinate.id" :color="color" :radius="radius">
+        <l-circle-marker v-for="coordinate in userdata.coordinates" :lat-lng="[coordinate.lat, coordinate.lon]" :key="coordinate.id" :color="color" :radius="radius">
             <l-popup>
                 <ul>
                     <li>Date: {{ coordinate.created_at }} UTC</li>
@@ -31,9 +31,16 @@
         data() {
             return {
                 radius: 3,
-                coordinates: this.userdata.coordinates,
-                color: this.userdata.color,
-                polyline: this.userdata.coordinates.map((x) => [x.lat, x.lon])
+            }
+        },
+
+        computed: {
+            polyline: function() {
+                return this.userdata.coordinates.map((x) => [x.lat, x.lon]);
+            },
+
+            color: function() {
+                return this.userdata.color;
             }
         }
     }
