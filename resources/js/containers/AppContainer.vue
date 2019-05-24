@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid h-100">
-        <navbar :users="users" :userDateRange="dateRange" @updateRefreshKey="refreshKey += 1" @updateCenter="updateCenter"></navbar>
-        <router-view :users="users" :key="refreshKey" :zoom="zoom" @updateZoom="updateZoom" :center="center"></router-view>
+        <navbar :users="users" :userDateRange="dateRange" @updateRefreshKey="refreshKey += 1"></navbar>
+        <router-view :users="users" :refreshKey="refreshKey"></router-view>
     </div>
 </template>
 
@@ -15,9 +15,6 @@
             return {
                 users: {},
                 dateRange: {},
-                zoom: 13,
-                // default center is Tartu
-                center: L.latLng(58.378025, 26.728493),
                 refreshKey: 0,
             }
         },
@@ -72,7 +69,6 @@
                         Vue.set(user, 'coordinates', response.data);
                         Vue.set(user, 'showCoordinates', true);
                         Vue.set(user, 'email', app.$auth.user().email);
-                        app.updateCenter(user);
                     });
 
                 }).catch(function(error) {
@@ -91,20 +87,9 @@
                         Vue.set(user, 'coordinates', response.data);
                         Vue.set(user, 'showCoordinates', true);
                         Vue.set(user, 'email', app.$auth.user().email);
-                        app.updateCenter(user);
                     });
                 });
             },
-
-            updateZoom(zoom) {
-                this.zoom = zoom;
-            },
-
-            updateCenter(user) {
-                if (user.coordinates[0]) {
-                    this.center = L.latLng(user.coordinates[0].lat, user.coordinates[0].lon);
-                }
-            }
         }
     }
 </script>
