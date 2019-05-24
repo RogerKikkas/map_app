@@ -40,7 +40,8 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <h5>This setup uses GPS Logger app for android, HTTP body might be different for different apps.</h5>
+                                    <h5>This setup uses <a href="https://play.google.com/store/apps/details?id=com.mendhak.gpslogger&hl=et" target="_blank">GPS Logger</a>
+                                        app for android, HTTP body might be different for different apps.</h5>
                                 </li>
                             </ul>
                             <h3>Your api token (included in HTTP body)</h3>

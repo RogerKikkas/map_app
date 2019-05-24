@@ -1,5 +1,5 @@
 <template>
-    <l-map :zoom="zoom" :center="center" id="map">
+    <l-map :zoom="zoom" :center="center" id="map" @update:zoom="updateZoom">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
         <user-map v-for="user in users" v-if="user.coordinates.length" :key="user.id" :userdata="user"></user-map>
     </l-map>
@@ -12,17 +12,27 @@
             users: {
                 type: Object/Array,
                 required: true
+            },
+            zoom: {
+                type: Number,
+            },
+            center: {
+                type: Object/Array,
             }
         },
 
         data() {
             return {
-                zoom: 13,
-                center: L.latLng(58.378025, 26.728493),
                 url:'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
                 attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             }
         },
+
+        methods: {
+            updateZoom(zoom) {
+                this.$emit('updateZoom', zoom);
+            }
+        }
 
     }
 </script>

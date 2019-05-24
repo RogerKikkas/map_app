@@ -11,10 +11,9 @@
                     <li>Travelled: {{ coordinate.travelled }} m</li>
                 </ul>
             </l-popup>
-        </l-circle-marker>
-        <l-polyline :lat-lngs="polyline" :color="color">
             <l-tooltip>{{ userdata.name }}</l-tooltip>
-        </l-polyline>
+        </l-circle-marker>
+        <l-polyline :lat-lngs="polyline" :color="color"></l-polyline>
     </div>
 </template>
 

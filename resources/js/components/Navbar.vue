@@ -136,6 +136,9 @@
                 }).then(function(response) {
                     app.users[id].showCoordinates = true;
                     Vue.set(app.users[id], 'coordinates', response.data);
+                    if (id == app.$auth.user().id) {
+                        app.$emit('updateCenter', app.users[id]);
+                    }
                 });
             },
 
