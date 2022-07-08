@@ -28,7 +28,7 @@
         "@websanova/vue-auth": "^2.21.14-beta",
         "es6-promise": "^4.2.6",
         "leaflet": "^1.4.0",
-        "moment": "^2.24.0",
+        "moment": "^2.29.4",
         "vue-axios": "^2.1.4",
         "vue-clipboard2": "^0.3.0",
         "vue-color": "^2.7.0",
